@@ -157,7 +157,7 @@ export default function Hero() {
           initial={reduced ? false : { opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: EASE, delay: 0.5 }}
-          className="relative mx-auto hidden w-full max-w-[320px] md:block"
+          className="relative mx-auto w-full max-w-[240px] md:max-w-[320px]"
         >
           <div className="relative overflow-hidden rounded-2xl border border-line">
             <img
@@ -165,13 +165,13 @@ export default function Hero() {
               alt="Portrait of Shivansh Chauhan"
               width="675"
               height="1200"
-              className="h-[480px] w-full object-cover object-top saturate-[0.9]"
+              className="h-[340px] w-full object-cover object-top saturate-[0.9] md:h-[480px]"
             />
             <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent" />
           </div>
           {/* annotation label */}
-          <figcaption className="mt-3 font-mono text-[0.65rem] tracking-[0.18em] text-slate uppercase">
-            <span className="eyebrow-marker">◆</span> Fig. 01 — S. Chauhan · Birmingham, UK
+          <figcaption className="mt-3 text-center font-mono text-[0.65rem] tracking-[0.18em] text-slate uppercase md:text-left">
+            <span className="eyebrow-marker">◆</span> Shivansh Chauhan
           </figcaption>
           {/* corner ticks */}
           <span aria-hidden="true" className="absolute -top-2 -left-2 h-4 w-4 border-t border-l border-teal-600/70" />

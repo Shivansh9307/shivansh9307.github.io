@@ -191,3 +191,13 @@ reduced-motion / mobile / production pass.
 4. **Type with a hand in it**: precise Space Grotesk + mono carry the machine voice;
    Fraunces italic interrupts it exactly where a human judgement appears (rotating hero
    word, "a dashboard is only as good as the governance underneath it").
+
+---
+
+## Post-launch revision 1 (user feedback, 2026-07-13)
+
+- Hero portrait now shows on mobile too (240px wide, 340px crop, stacked below the
+  CTAs) — resolves the cycle-1 carry-forward, by user request.
+- Portrait caption simplified to `◆ Shivansh Chauhan` — "Fig. 01" annotation and
+  location dropped at the owner's preference; caption centres under the portrait on
+  mobile, left-aligns on desktop.
