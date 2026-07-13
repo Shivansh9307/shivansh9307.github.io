@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-950: #060a12;
+  --color-ink-900: #0b1120;
+  --color-ink-800: #141c30;
+  --color-line: #22304a;
+  --color-chalk: #edf2f7;
+  --color-slate: #93a1b7;
+  --color-teal-400: #4fd6c2;
+  --color-teal-600: #0fa08d;
+  --color-amber-400: #f2b457;
+  --color-amber-600: #c08427;
+  --color-plot-500: #6b8aee;
+  --color-rose-500: #e0506b;
+
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-chalk);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-teal-600);
+  color: var(--color-ink-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-teal-400);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Mono eyebrow — the "chart annotation" voice used at every section opening */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-slate);
+}
+
+.eyebrow-marker {
+  color: var(--color-amber-400);
+}
