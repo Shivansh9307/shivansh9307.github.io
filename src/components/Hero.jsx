@@ -131,7 +131,7 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
             className="mt-7 max-w-xl text-lg leading-relaxed text-slate"
           >
-            Power BI Developer &amp; Data Analyst in Birmingham, UK. I design{' '}
+            Power BI Developer &amp; Data Analyst in London, UK. I design{' '}
             <strong className="font-medium text-chalk">semantic models, advanced DAX and governed pipelines</strong>{' '}
             — from enterprise reporting for EGA Dubai to an AI compliance-monitoring
             platform built on UK Companies House data.

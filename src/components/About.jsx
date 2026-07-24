@@ -22,7 +22,7 @@ const FACTS = [
   { k: 'MSc Business Analytics', v: 'Aston University, Birmingham · 2025' },
   { k: 'Languages', v: 'English (professional proficiency), Hindi (native)' },
   { k: 'Currently building', v: 'UK Corporate Compliance Radar' },
-  { k: 'Base', v: 'Birmingham · open to hybrid / remote UK' },
+  { k: 'Base', v: 'London · open to hybrid / remote UK' },
 ]
 
 export default function About() {
@@ -62,7 +62,7 @@ export default function About() {
                 />
               </svg>
               <span>
-                <span aria-hidden="true">🇬🇧</span> Birmingham, UK
+                <span aria-hidden="true">🇬🇧</span> London, UK
               </span>
             </p>
           </Reveal>
