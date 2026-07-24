@@ -23,10 +23,17 @@ const SUPPORTING = [
   },
   {
     eyebrow: 'Analyst · Enterprise',
-    title: 'Enterprise reporting frameworks — EGA Dubai',
-    body: 'Reusable star-schema reporting frameworks for a multi-system industrial environment at HCLTech, exposing SLA bottlenecks and cutting resolution time by 50%.',
-    detail: 'QA validation and documentation standards embedded into the reporting lifecycle.',
-    tags: ['Power BI', 'SQL', 'Star schema', 'Executive reporting'],
+    title: 'SLA & IT KPI reporting — EGA Dubai',
+    body: 'Automated SLA and IT Support KPI reporting for a multi-system enterprise IT environment at HCLTech (client: EGA Dubai) — incident data extracted, cleansed and transformed from ServiceNow and BMC Remedy into Excel reporting suites, giving IT leadership visibility of SLA breaches and bottlenecks.',
+    detail: 'Streamlined recurring manual reporting and embedded documentation standards into the reporting lifecycle.',
+    tags: ['ServiceNow', 'BMC Remedy', 'Excel', 'SLA reporting'],
+  },
+  {
+    eyebrow: 'Self-directed · AI/LLM',
+    title: 'RAG Document Chatbot',
+    body: 'Conversational analytics chatbot for grounded Q&A over business documents — FastAPI backend, Next.js frontend and a ChromaDB vector store, with token-budgeted prompt assembly and streaming responses.',
+    detail: 'A strict "no answer" fallback on empty retrievals — no fabricated output, a control requirement in regulated reporting.',
+    tags: ['FastAPI', 'Next.js', 'ChromaDB', 'RAG'],
   },
   {
     eyebrow: 'Prototype · NLP',

@@ -26,4 +26,4 @@ Vite + React 18 + Tailwind CSS v4 (via `@tailwindcss/vite`; tokens live in `@the
 
 ## Content rules
 
-Copy uses only CV-backed or user-supplied facts (metrics like 45%/50%/30% come from the CV in `public/Shivansh_Chauhan_CV.pdf`). Do not invent metrics; illustrative numbers must be visibly marked as simulated/demo.
+Copy uses only CV-backed or user-supplied facts — every metric on the site must trace back to `public/Shivansh_Chauhan_CV.pdf`. Do not invent metrics; illustrative numbers must be visibly marked as simulated/demo. Re-check StatsBar/Experience/Projects/About against the CV any time that file is replaced.

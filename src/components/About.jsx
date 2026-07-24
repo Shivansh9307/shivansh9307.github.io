@@ -20,7 +20,7 @@ function Reveal({ children, delay = 0, className = '' }) {
 
 const FACTS = [
   { k: 'MSc Business Analytics', v: 'Aston University, Birmingham · 2025' },
-  { k: 'Microsoft PL-300', v: 'in progress · expected 2026' },
+  { k: 'Languages', v: 'English (professional proficiency), Hindi (native)' },
   { k: 'Currently building', v: 'UK Corporate Compliance Radar' },
   { k: 'Base', v: 'Birmingham · open to hybrid / remote UK' },
 ]

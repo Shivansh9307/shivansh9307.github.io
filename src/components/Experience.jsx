@@ -12,6 +12,7 @@ const ENTRIES = [
     points: [
       'Data modelling, predictive analytics, machine learning and data visualisation.',
       'Dissertation-adjacent build: the UK Corporate Compliance Radar platform.',
+      'Dissertation applied NLP to financial fraud detection, improving model precision-recall AUC from 0.14 to 0.64.',
     ],
   },
   {
@@ -20,9 +21,9 @@ const ENTRIES = [
     title: 'Koru Green Limited',
     where: 'Remote, UK',
     points: [
-      'Built star-schema semantic models that surfaced a 45% revenue-concentration insight, reshaping commercial targeting.',
-      'Cut dashboard load times 30% with advanced DAX; unified 12 source platforms into clean dimensional models.',
-      'Embedded governance — KPI standardisation, version-controlled documentation, deployment pipelines — cutting post-release issues 40%.',
+      'Cleansed and prepared multi-regional royalty earnings data in Python (pandas / Jupyter), analysing month-on-month revenue trends.',
+      'Built dynamic Tableau dashboards by translating Technical Design Document (TDD) requirements into analytical deliverables with cross-functional stakeholders.',
+      'Presented performance reporting to stakeholders; managed version control in Git / GitHub.',
     ],
   },
   {
@@ -31,9 +32,9 @@ const ENTRIES = [
     title: 'HCLTech — Client: EGA Dubai',
     where: 'Lucknow, India',
     points: [
-      'Cut SLA resolution time 50% by modelling operational datasets dimensionally to expose bottleneck patterns.',
-      'Designed reusable star-schema reporting frameworks supporting executive decisions across a multi-system industrial environment.',
-      'Introduced QA validation and documentation standards; root-cause analytics reduced repeat tickets 10%.',
+      'Produced automated SLA and IT Support KPI reporting across a multi-system enterprise IT environment, delivered to senior management on weekly and monthly cycles.',
+      'Extracted, cleansed and transformed incident data from ServiceNow and BMC Remedy into Excel reporting suites, giving IT heads visibility of SLA breaches and operational bottlenecks.',
+      'Streamlined recurring manual reporting and maintained operational and procedural documentation to client standards.',
     ],
   },
   {
@@ -42,9 +43,8 @@ const ENTRIES = [
     title: 'HDFC Life',
     where: 'Lucknow, India',
     points: [
-      'Lifted branch conversion rates 30% through SQL-based KPI modelling and structured performance reviews.',
-      'Reduced turnaround time 15% with forecast-versus-actual variance dashboards that flagged drift early.',
-      'Delivered executive regional reports integrating revenue mix and compliance analytics.',
+      'Managed a bank-partnership (RBL Bank bancassurance) insurance portfolio, tracking performance metrics and reporting to branch and regional stakeholders.',
+      'Territory achieved the #1 regional position for premium collection during tenure.',
     ],
   },
 ]
