@@ -131,10 +131,11 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
             className="mt-7 max-w-xl text-lg leading-relaxed text-slate"
           >
-            Power BI Developer &amp; Data Analyst in London, UK. I design{' '}
+            Data &amp; BI Analyst in London, UK. I design{' '}
             <strong className="font-medium text-chalk">semantic models, advanced DAX and governed pipelines</strong>{' '}
-            — from enterprise reporting for EGA Dubai to an AI compliance-monitoring
-            platform built on UK Companies House data.
+            — from SLA reporting across 10,000+ tickets a year for EGA Dubai to an AI
+            compliance-monitoring platform on UK Companies House data, and an analytics
+            engine that blocks its own output when the evidence doesn&rsquo;t hold up.
           </motion.p>
 
           <motion.div

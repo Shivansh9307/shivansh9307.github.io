@@ -19,9 +19,9 @@ function Reveal({ children, delay = 0, className = '' }) {
 }
 
 const FACTS = [
-  { k: 'MSc Business Analytics', v: 'Aston University, Birmingham · 2025' },
+  { k: 'MSc Business Analytics', v: 'Aston University, Birmingham · Merit · 2025' },
   { k: 'Languages', v: 'English (professional proficiency), Hindi (native)' },
-  { k: 'Currently building', v: 'UK Corporate Compliance Radar' },
+  { k: 'Currently building', v: 'Atlas Analytics · UK Corporate Compliance Radar' },
   { k: 'Base', v: 'London · open to hybrid / remote UK' },
 ]
 
@@ -71,7 +71,7 @@ export default function About() {
             <p className="text-[clamp(1.25rem,2.2vw,1.6rem)] leading-[1.55] font-normal text-slate">
               I turn <strong className="font-medium text-chalk">messy operational and commercial data</strong> into{' '}
               <strong className="font-medium text-chalk">decisions people can stand behind</strong>. Three years across
-              enterprise IT, insurance and a green-energy startup taught me one lesson:{' '}
+              enterprise IT, insurance and a music-analytics startup taught me one lesson:{' '}
               <em className="font-serif text-teal-400">
                 a dashboard is only as good as the governance underneath it
               </em>{' '}
@@ -81,8 +81,11 @@ export default function About() {
 
           <Reveal delay={0.2}>
             <p className="mt-6 text-lg leading-[1.7] text-slate">
-              Now, after an MSc in Business Analytics at Aston University, I'm applying that
-              discipline to a newer class of problems —{' '}
+              That discipline was built on volume: two years of SLA and KPI reporting across{' '}
+              <strong className="font-medium text-chalk">10,000+ tickets a year</strong> for Emirates
+              Global Aluminium at HCLTech, where a number that couldn't be traced was a number
+              leadership wouldn't act on. Now, after an MSc in Business Analytics at Aston
+              University, I'm applying it to a newer class of problems —{' '}
               <strong className="font-medium text-chalk">
                 AI-assisted data systems that keep humans in the loop
               </strong>

@@ -16,6 +16,8 @@ const GROUPS = [
       'Row-Level Security',
       'Incremental Refresh',
       'Deployment Pipelines',
+      'Tableau',
+      'Advanced Excel (PivotTables)',
     ],
   },
   {
@@ -30,6 +32,7 @@ const GROUPS = [
       'Data Warehousing',
       'Performance Optimisation',
       'Data Quality & Governance',
+      'Data Validation',
       'Snowflake (developing)',
     ],
   },
@@ -42,7 +45,9 @@ const GROUPS = [
     items: [
       'Python',
       'pandas',
+      'Jupyter',
       'TF-IDF / NLP prototyping',
+      'Precision-Recall AUC evaluation',
       'Claude API',
       'LLM document extraction',
       'Agentic workflows (human-in-the-loop)',

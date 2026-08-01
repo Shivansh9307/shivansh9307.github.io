@@ -201,3 +201,68 @@ reduced-motion / mobile / production pass.
 - Portrait caption simplified to `◆ Shivansh Chauhan` — "Fig. 01" annotation and
   location dropped at the owner's preference; caption centres under the portrait on
   mobile, left-aligns on desktop.
+
+---
+
+## Post-launch revision 2 — CV sync + Atlas (2026-07-31)
+
+Synced the site to the 2026-07-31 CV and to live GitHub project data.
+
+**Two factual corrections.** Koru Green was labelled *"Green energy"* in the Experience
+eyebrow and *"a green-energy startup"* in the About prose — inferred from the company
+name. It is **music & media analytics** (royalty data); both are fixed. HCLTech's client
+is named in full: Emirates Global Aluminium (EGA), Dubai.
+
+**Experience restructured** to mirror the CV, which now folds portfolio work into a dated
+`Data & BI Analyst — Independent Projects (Jan 2025 – Present)` entry rather than a
+separate projects section. That entry carries the CV's disclosure verbatim in substance —
+*"unpaid portfolio work, no client engagement, all code public on GitHub"* — rendered in
+an amber-ruled `note` field. **Keep it.** An unlabelled portfolio entry sitting in a work
+timeline reads as a client engagement, and the whole site argues for provenance; the
+disclosure is the design, not a caveat on it. Added MSc Merit, the Amity BCom, and the
+HCLTech figures the site never carried (10,000+ tickets/yr, ~20 hrs/month automated out,
+SLA compliance mid-90s%).
+
+**Projects: two co-flagships.** Atlas Analytics joins Compliance Radar at equal
+hierarchy, **stacked, not side by side** — both demos are wide consoles and neither
+survives half-width. `Flagship` is now a component rendered from a `FLAGSHIPS` array with
+per-project blurbs in `BLURBS`. Supporting cards dropped from four to three, which also
+fixes a standing layout bug (four cards in a `md:grid-cols-3` grid left an orphan on row
+two). Removed: *Companies House ingestion engine* (not a separate project — it lives in
+the `compliance-radar` repo and duplicated the flagship copy) and *TF-IDF sentiment
+analysis* (no public repo, absent from the CV). Added *Food & Beverage sales analysis*.
+Every project with a public repo now carries a `VIEW REPO ↗` link.
+
+**New `AtlasReceipt` component** — the counterpart to `RadarDemo`, with a crucial
+labelling asymmetry:
+
+> `RadarDemo` is tagged **`SIMULATED`** in amber because its figures are illustrative mock
+> UI data. `AtlasReceipt` is tagged **`REAL RUN · COMMITTED`** in teal because every figure
+> is genuine output committed to `examples/churn-run` and `examples/blocked-run`. **Do not
+> relabel either one, in either direction.** The site's entire argument is that it
+> practises the provenance it sells; mislabelling real output as simulated is as damaging
+> as the reverse.
+
+Two flaws found and fixed during the cycle:
+
+1. **The blocked run misstated its own failure.** First pass marked the held-out AUC row
+   `in tol. = NO`. Wrong: analyst and red team both derived `0.4954` — they *agreed*. The
+   run failed on **discrimination, not arithmetic**, which is the entire point of the
+   example. All three tolerance checks now read YES, and the AUC sits in a separate rose
+   `kicker` line above the veto. A table that can only express "someone disagreed" cannot
+   express "everyone agreed and the answer was still worthless".
+2. **Mobile hid the red-team column.** The checks were a `<table>` in an `overflow-x-auto`
+   container; at 375px only ~239px is available inside the nested padding, so the
+   analyst-vs-red-team comparison — the whole argument — scrolled off-screen. Now a `<ul>`
+   that stacks with inline labels below `sm` and becomes an aligned grid above it. **Rule:
+   content that carries the argument never goes behind a horizontal scroll.**
+
+**StatsBar** re-cut to employed/academic evidence, since Projects now covers the portfolio
+work twice over: 10K+ tickets/yr (EGA), 20 hrs/month automated out, 0.64 precision-recall
+AUC (from 0.14), #1 regional rank. The old **"357% AUC lift"** was dropped — arithmetically
+true (0.14 → 0.64) but it inflates a 0.5 absolute move, and stating the raw before/after is
+more credible to the analyst audience this site targets. `useCountUp` gained an optional
+`decimals` argument to render 0.64; default `0` preserves every existing call site.
+
+**Chanel rule removal:** two project cards (ingestion engine, TF-IDF) — content that
+existed to fill a grid rather than to make a point.
