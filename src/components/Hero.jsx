@@ -164,7 +164,7 @@ export default function Hero() {
             <img
               src={portrait}
               alt="Portrait of Shivansh Chauhan"
-              width="675"
+              width="800"
               height="1200"
               className="h-[340px] w-full object-cover object-top saturate-[0.9] md:h-[480px]"
             />

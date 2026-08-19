@@ -266,3 +266,17 @@ more credible to the analyst audience this site targets. `useCountUp` gained an 
 
 **Chanel rule removal:** two project cards (ingestion engine, TF-IDF) — content that
 existed to fill a grid rather than to make a point.
+
+## Post-launch revision 3 — portrait swap (2026-08-19)
+
+New hero headshot supplied by the user, replacing the office/glasses portrait. The source
+was a 1254×1254 **square** studio shot (1.8 MB, and a PNG despite its `.jpg` name), while
+the hero frame is a ~2:3 window (`max-w-[240px]`/`h-[340px]` mobile, `max-w-[320px]`/
+`h-[480px]` desktop). Dropped in as-is, `object-cover` would have thrown away a third of the
+width at load time and `object-top` would have become a no-op.
+
+Instead the crop was taken at source: a centred 836×1254 2:3 slice, resampled to 800×1200
+(2× the desktop display box) and re-encoded as real JPEG at q80 → **143 KB**, slightly under
+the 188 KB it replaces. Headroom and face size land close to the previous framing, so the
+corner ticks, scrim and `◆ Shivansh Chauhan` figcaption needed no adjustment; only the `width`
+attribute changed (675 → 800), which exists to reserve layout space against decode-time shift.
