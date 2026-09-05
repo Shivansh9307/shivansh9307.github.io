@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import SectionHeading from './SectionHeading'
+import NorthstarDemo from './NorthstarDemo'
 import RadarDemo from './RadarDemo'
 import AtlasReceipt from './AtlasReceipt'
 
@@ -10,10 +11,10 @@ const REPO = 'https://github.com/Shivansh9307'
 const SUPPORTING = [
   {
     eyebrow: 'Analyst · Enterprise',
-    title: 'SLA & IT KPI reporting — EGA Dubai',
-    body: 'SLA and IT Support KPI reporting across 10,000+ tickets a year at HCLTech (client: Emirates Global Aluminium) — incident data extracted, cleansed and transformed from ServiceNow and BMC Remedy into Excel-based SLA dashboards for client and internal leadership.',
-    detail: 'Automation cut roughly 20 hours of manual report preparation a month; reporting supported SLA compliance in the mid-90s%.',
-    tags: ['ServiceNow', 'BMC Remedy', 'Excel', 'SLA reporting'],
+    title: 'SLA & operational performance — EGA Dubai',
+    body: 'Operational performance reporting for Emirates Global Aluminium at HCLTech — analysing performance data across two UAE industrial sites to expose failure patterns and backlog bottlenecks, then standardising monthly management reporting across incident volume, SLA compliance, backlog and resolution time.',
+    detail: 'Repeat SLA breaches down 15% quarter on quarter, compliance up 8 points, repeat incidents down 18% — and reporting migrated from BMC Remedy to ServiceNow mid-contract with no break in the monthly cycle.',
+    tags: ['ServiceNow', 'BMC Remedy', 'Root cause analysis', 'SLA reporting'],
   },
   {
     eyebrow: 'Self-directed · AI/LLM',
@@ -34,6 +35,21 @@ const SUPPORTING = [
 ]
 
 const FLAGSHIPS = [
+  {
+    id: 'northstar',
+    status: 'Flagship · Active',
+    title: 'Northstar — Causal Demand & Promotion Analytics',
+    repo: `${REPO}/northstar-causal-demand-analytics`,
+    demo: NorthstarDemo,
+    tags: [
+      'Python',
+      'DuckDB',
+      'Difference-in-differences',
+      'Power BI (TMDL)',
+      '45 DAX measures',
+      'Monte Carlo',
+    ],
+  },
   {
     id: 'radar',
     status: 'Flagship · Active',
@@ -59,6 +75,7 @@ const FLAGSHIPS = [
       'Python',
       'Multi-agent',
       'Provenance ledger',
+      '18 agents',
       'DuckDB · Postgres',
       'Power BI export',
       '380 tests',
@@ -157,6 +174,20 @@ function Flagship({ project, blurb, index }) {
 }
 
 const BLURBS = {
+  northstar: (
+    <>
+      What do promotions actually earn? The obvious comparison says{' '}
+      <strong className="font-medium text-chalk">+126.7%</strong>; difference-in-differences on
+      uncannibalised controls says <strong className="font-medium text-chalk">+96.4%</strong>; the
+      recorded truth is <strong className="font-medium text-chalk">+81.0%</strong> — so the
+      correction removes 64% of the bias. That gap is not academic:{' '}
+      <strong className="font-medium text-chalk">
+        a plan built on the naive number backs 19 promotions that all lose money
+      </strong>
+      , where the corrected one backs 10 and captures 96.8% of perfect-knowledge profit on the same
+      budget. Delivered as a five-page Power BI layer over 45 DAX measures.
+    </>
+  ),
   radar: (
     <>
       End-to-end compliance monitoring on{' '}
@@ -165,9 +196,12 @@ const BLURBS = {
       Claude-based PDF extraction, and a tool-using compliance agent —{' '}
       <strong className="font-medium text-chalk">every write approved by a human</strong>. Fixing
       the definition of &ldquo;adverse&rdquo; — counting involuntary insolvency rather than every
-      dissolution — cut the network flag from{' '}
-      <strong className="font-medium text-chalk">60 directors to 4</strong>, and hardening the
-      extraction prompt against negations took related-party false positives from 18/20 to 3/20.
+      dissolution, with the threshold held constant — cut the network flag from{' '}
+      <strong className="font-medium text-chalk">60 directors to 4</strong>. Hand-verifying flagged
+      cases against source accounts took the LLM layer&rsquo;s false positives from 18 in 20 to 3
+      in 20, <strong className="font-medium text-chalk">holding at 9.2% across 239 unseen
+      companies</strong> — isolating 20 high-risk companies from 10,000, all directors
+      pseudonymised under UK GDPR.
     </>
   ),
   atlas: (
@@ -176,10 +210,11 @@ const BLURBS = {
       <strong className="font-medium text-chalk">
         refuses to ship a number it cannot trace back to a query
       </strong>
-      . Every figure is computed deterministically in Python — the LLM layer is never given the
-      chance to produce one — and carries a provenance ID resolving to a stored query and result
-      hash. A blind red team re-derives the headline from raw data without seeing the first
-      analyst&rsquo;s SQL;{' '}
+      . <strong className="font-medium text-chalk">18 specialist agents</strong> orchestrated with
+      read-only enforcement at two layers; every figure is computed deterministically in Python —
+      the LLM layer is never given the chance to produce one — and carries a provenance ID
+      resolving to a stored query and result hash. A blind red team re-derives the headline from
+      raw data without seeing the first analyst&rsquo;s SQL;{' '}
       <strong className="font-medium text-chalk">a failed gate blocks the build entirely</strong>.
     </>
   ),

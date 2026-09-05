@@ -5,7 +5,7 @@ import MagneticButton from './MagneticButton'
 import portrait from '../assets/portrait.jpg'
 
 const EASE = [0.22, 1, 0.36, 1]
-const ROTATING = ['dashboards', 'semantic models', 'pipelines', 'insights']
+const ROTATING = ['dashboards', 'semantic models', 'pipelines', 'causal estimates']
 
 // One word inside an overflow mask — the staggered hero reveal unit.
 function Word({ children, index, serif = false }) {
@@ -131,11 +131,12 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: EASE, delay: 0.7 }}
             className="mt-7 max-w-xl text-lg leading-relaxed text-slate"
           >
-            Data &amp; BI Analyst in London, UK. I design{' '}
-            <strong className="font-medium text-chalk">semantic models, advanced DAX and governed pipelines</strong>{' '}
-            — from SLA reporting across 10,000+ tickets a year for EGA Dubai to an AI
-            compliance-monitoring platform on UK Companies House data, and an analytics
-            engine that blocks its own output when the evidence doesn&rsquo;t hold up.
+            Data &amp; BI Analyst in London, UK. I build in{' '}
+            <strong className="font-medium text-chalk">Power BI, SQL and Python</strong> — with
+            causal inference and validation underneath, so an expensive mistake gets caught before
+            it reaches a decision: a promotional-lift estimate scored against a known answer, a
+            compliance screen whose false alarms fall from 60 to 4, an analytics engine that blocks
+            its own output when the evidence doesn&rsquo;t hold up.
           </motion.p>
 
           <motion.div

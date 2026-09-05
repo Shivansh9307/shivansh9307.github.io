@@ -2,10 +2,10 @@ import useCountUp from '../hooks/useCountUp'
 
 // All figures are CV-backed — no invented metrics.
 const STATS = [
-  { value: 10, suffix: 'K+', label: 'tickets a year SLA-reported for EGA Dubai' },
-  { value: 20, suffix: ' hrs', label: 'of manual reporting automated out, every month' },
-  { value: 0.64, decimals: 2, label: 'precision-recall AUC in the NLP fraud dissertation, up from 0.14' },
-  { value: 1, prefix: '#', label: 'regional rank for premium collection at HDFC Life' },
+  { value: 4, label: 'directors left on the compliance watchlist after one definitional fix, down from 60' },
+  { value: 19, label: 'loss-making promotions the standard lift measure would have backed' },
+  { value: 30, suffix: '%', label: 'of manual reporting effort cut at HCLTech, redirected into investigation' },
+  { value: 0.64, decimals: 2, label: 'precision-recall AUC in the NLP fraud dissertation — 4.6× up from 0.14' },
 ]
 
 function Stat({ value, prefix = '', suffix = '', decimals = 0, label }) {

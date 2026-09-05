@@ -280,3 +280,80 @@ Instead the crop was taken at source: a centred 836×1254 2:3 slice, resampled t
 the 188 KB it replaces. Headroom and face size land close to the previous framing, so the
 corner ticks, scrim and `◆ Shivansh Chauhan` figcaption needed no adjustment; only the `width`
 attribute changed (675 → 800), which exists to reserve layout space against decode-time shift.
+
+## Post-launch revision 4 — CV re-sync + Northstar flagship (2026-09-05)
+
+A new CV landed, and it repositions rather than refreshes. The headline moved from
+`Power BI · SQL · Python · Dimensional Modelling` to `… | Causal Inference & Validation`,
+and the profile now leads with analytics systems that *catch an expensive mistake before it
+reaches a decision*. Hero prose, About's second paragraph and the meta description follow
+that framing; the page `<title>` deliberately does **not** — it keeps "Power BI Developer &
+Data Analyst" because that is what recruiters search for, and the title is the only string
+doing SEO work here.
+
+**Two load-bearing figures were retired.** `10,000+ tickets a year` (hero, About, StatsBar,
+a project card) and `~20 hrs/month automated out` (StatsBar, project card) are both gone from
+the CV. Under the content rule they had to go from the site the same day — a figure that no
+longer traces anywhere is exactly the failure the site argues against. HCLTech's entry now
+carries what the CV does carry: −15% repeat breaches QoQ, +8 points compliance, −18% repeat
+incidents, 90%+ corrective-action closure, −30% manual reporting effort, and the mid-contract
+BMC Remedy → ServiceNow migration.
+
+**StatsBar was rebuilt** around what the work catches rather than how much of it there was:
+`4` directors left after a definitional fix (down from 60), `19` loss-making promotions the
+naive lift measure would have backed, `30%` of manual reporting effort cut, `0.64` PR-AUC
+(4.6× up from 0.14). The last still needs `decimals: 2` — see revision 2.
+
+### Northstar: a third flagship, and a third provenance label
+
+Northstar leads the CV's Projects section, so it leads the site's: **Northstar → Radar →
+Atlas**, all three stacked full-width. `NorthstarDemo.jsx` is a scripted walkthrough built on
+RadarDemo's state-machine shape (STEPS array, `useInView` start, reduced-motion snapshot),
+but the visual is an **estimate axis** — three marks on one scale, because the distance
+between them *is* the argument — over a promotion grid that flips 19 loss-making marks to 10
+profitable ones. Like the Radar checkpoint, it pauses and makes the visitor choose which
+estimate funds the plan, auto-resolving to causal after 6s.
+
+**The badge is new: teal `REAL RUN · SYNTHETIC ESTATE`.** Neither existing label was honest
+here. Amber `SIMULATED` (Radar) would understate it — these are real committed figures, not
+mock UI data. Plain `REAL RUN · COMMITTED` (Atlas) would overstate it — the 2.19M-row estate
+is synthetic *by design*, generated with the true promotional effect recorded so every
+estimate can be scored against a known answer. The third label says exactly that, and the
+note under the console explains why the synthetic data is a feature. The site now carries
+three provenance states; do not collapse them into two.
+
+**Three numbers that must stay distinct.** `+126.7%` naive, `+96.4%` DiD-corrected, `+81.0%`
+recorded truth. The CV bullet compresses this to "+126.7% against a true +81.0% … removing
+64% of the bias", which reads as though +81.0% were the corrected estimate. It is not; it is
+the answer both estimates are scored against. Every surface that quotes one of these must
+quote the axis, not the compression.
+
+**Axis coordinate bug, caught in the 375px screenshot pass.** The axis rule was inset
+(`inset-x-5`) while the marks and ticks were positioned as percentages of the full padded
+box, so the scale and its rule disagreed — invisible at 1440px, obvious at 375px. Fixed by
+wrapping every positioned child in an inner `absolute inset-x-5 inset-y-0` plot area so the
+rule, the ticks and all three marks share one coordinate system. Any future mark added to
+this axis goes inside that inner box.
+
+### Skills
+
+Restructured onto the CV's categories (BI & Visualisation / Data & Engineering / Analysis &
+Modelling / Domain & Governance) plus an **AI & Automation** group the CV folds into Data &
+Engineering — the site has room and the agent/LLM work is a selling point. New from the CV:
+DuckDB, TMDL/PBIP, causal inference (DiD, IPW), regression, forecasting, optimisation &
+simulation, CI/CD, agent orchestration, LLM cost governance, UK GDPR pseudonymisation.
+Previously listed items not on the new CV (MS SQL Server, MySQL, Snowflake, Fabric, Power
+Apps, Zapier, n8n, RLS, incremental refresh, deployment pipelines) were kept by the owner's
+decision — they are user-supplied, not invented.
+
+### TODO: verify (illustrative / assumed values) — revision 4 update
+
+- Radar console figures remain **mock UI data** labelled `SIMULATED`; the CV's real Radar
+  numbers now live in the Projects blurb and the timeline instead. Left deliberately: the
+  console demonstrates the *mechanism*, and relabelling it would break the three-state
+  provenance argument above.
+- The old note's "45% / 50% / 30% / 12 platforms" line is stale — those figures are no
+  longer anywhere on the site. Current numbers all trace to the 2026 CV or to a repo README
+  (`northstar-causal-demand-analytics`, `compliance-radar`, `atlas-analytics`).
+- "PL-300 expected 2026" is not on the site or the new CV. "open to hybrid / remote UK"
+  still shows in About — confirm it still holds.

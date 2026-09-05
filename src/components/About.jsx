@@ -21,7 +21,8 @@ function Reveal({ children, delay = 0, className = '' }) {
 const FACTS = [
   { k: 'MSc Business Analytics', v: 'Aston University, Birmingham · Merit · 2025' },
   { k: 'Languages', v: 'English (professional proficiency), Hindi (native)' },
-  { k: 'Currently building', v: 'Atlas Analytics · UK Corporate Compliance Radar' },
+  { k: 'Currently building', v: 'Northstar · Compliance Radar · Atlas' },
+  { k: 'Right to work', v: 'UK — no sponsorship required' },
   { k: 'Base', v: 'London · open to hybrid / remote UK' },
 ]
 
@@ -81,15 +82,18 @@ export default function About() {
 
           <Reveal delay={0.2}>
             <p className="mt-6 text-lg leading-[1.7] text-slate">
-              That discipline was built on volume: two years of SLA and KPI reporting across{' '}
-              <strong className="font-medium text-chalk">10,000+ tickets a year</strong> for Emirates
-              Global Aluminium at HCLTech, where a number that couldn't be traced was a number
-              leadership wouldn't act on. Now, after an MSc in Business Analytics at Aston
-              University, I'm applying it to a newer class of problems —{' '}
+              That discipline came from two years of enterprise reporting for Emirates Global
+              Aluminium at HCLTech — where standardising the monthly pack cut{' '}
+              <strong className="font-medium text-chalk">manual reporting effort 30%</strong> and
+              root-cause work took repeat SLA breaches down 15% a quarter, and where a number that
+              couldn't be traced was a number leadership wouldn't act on. Now, after an MSc in
+              Business Analytics at Aston University, I build{' '}
               <strong className="font-medium text-chalk">
-                AI-assisted data systems that keep humans in the loop
-              </strong>
-              , where every automated write has a checkpoint and every score can be explained.
+                analytics systems that catch an expensive mistake before it reaches a decision
+              </strong>{' '}
+              — a promotional-lift estimate scored against a known answer, a screening rule
+              interrogated until its false alarms fall from 60 to 4, a pipeline that vetoes its own
+              output when the evidence doesn't hold.
             </p>
           </Reveal>
         </div>
