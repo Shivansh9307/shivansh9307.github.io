@@ -25,7 +25,7 @@ export default function Nav() {
             key={id}
             href={`#${id}`}
             aria-current={active === id ? 'true' : undefined}
-            className={`rounded-full px-2 py-1.5 font-mono text-[0.58rem] tracking-[0.06em] uppercase transition-colors duration-200 md:px-3 md:text-[0.7rem] md:tracking-[0.12em] ${
+            className={`rounded-full px-2 py-2.5 font-mono text-[0.58rem] tracking-[0.06em] uppercase transition-colors duration-200 md:px-3 md:text-[0.7rem] md:tracking-[0.12em] ${
               active === id
                 ? 'bg-teal-600/20 text-teal-400'
                 : 'text-slate hover:text-chalk'

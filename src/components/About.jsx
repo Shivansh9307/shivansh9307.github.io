@@ -71,7 +71,7 @@ export default function About() {
           <Reveal delay={0.1}>
             <p className="text-[clamp(1.25rem,2.2vw,1.6rem)] leading-[1.55] font-normal text-slate">
               I turn <strong className="font-medium text-chalk">messy operational and commercial data</strong> into{' '}
-              <strong className="font-medium text-chalk">decisions people can stand behind</strong>. Three years across
+              <strong className="font-medium text-chalk">decisions people can stand behind</strong>. Nearly four years across
               enterprise IT, insurance and a music-analytics startup taught me one lesson:{' '}
               <em className="font-serif text-teal-400">
                 a dashboard is only as good as the governance underneath it

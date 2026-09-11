@@ -8,6 +8,8 @@ import Experience from './components/Experience'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Cursor from './components/Cursor'
+import ScrollSpine from './components/ScrollSpine'
+import ClosingFrame from './components/ClosingFrame'
 
 export default function App() {
   return (
@@ -20,6 +22,7 @@ export default function App() {
       </a>
       <Cursor />
       <Nav />
+      <ScrollSpine />
       <main>
         <Hero />
         <StatsBar />
@@ -28,6 +31,7 @@ export default function App() {
         <Projects />
         <Experience />
         <Contact />
+        <ClosingFrame />
       </main>
       <Footer />
     </>

@@ -5,7 +5,7 @@ export default function Footer() {
         <p className="font-mono text-[0.65rem] tracking-[0.16em] text-slate/80 uppercase">
           <span className="eyebrow-marker" aria-hidden="true">◆</span> Shivansh Chauhan · London, UK
         </p>
-        <p className="font-mono text-[0.65rem] tracking-[0.16em] text-slate/60 uppercase">
+        <p className="font-mono text-[0.65rem] tracking-[0.16em] text-slate/80 uppercase">
           Designed &amp; built with React · {new Date().getFullYear()}
         </p>
       </div>

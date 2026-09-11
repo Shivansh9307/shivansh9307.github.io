@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
+import PlaybackToggle from './PlaybackToggle'
 
 // Scripted walkthrough of Northstar. Unlike RadarDemo, every figure here is
 // real committed output from the northstar-causal-demand-analytics repo — but
@@ -192,7 +193,12 @@ export default function NorthstarDemo() {
   const [planMode, setPlanMode] = useState('naive')
   const [resolved, setResolved] = useState(false)
   const [cycle, setCycle] = useState(0)
+  const [paused, setPaused] = useState(false)
   const timer = useRef(null)
+  // The advance effect re-runs when `paused` flips back to false. Without this
+  // the current step's log line would be appended a second time, under a key it
+  // already used — duplicate keys inside AnimatePresence.
+  const lastLogged = useRef(null)
 
   const step = stepIdx >= 0 ? STEPS[stepIdx] : null
   const atDecision = step?.id === 'decide' && !resolved
@@ -208,13 +214,17 @@ export default function NorthstarDemo() {
 
   // Advance the scripted timeline.
   useEffect(() => {
-    if (reduced || !inView) return
+    if (reduced || !inView || paused) return
     if (stepIdx === -1) {
       timer.current = setTimeout(() => setStepIdx(0), 400)
       return () => clearTimeout(timer.current)
     }
     const s = STEPS[stepIdx]
-    setFeed((f) => [...f.slice(-5), { ...s.log, key: `${cycle}-${stepIdx}` }])
+    const key = `${cycle}-${stepIdx}`
+    if (lastLogged.current !== key) {
+      lastLogged.current = key
+      setFeed((f) => [...f.slice(-5), { ...s.log, key }])
+    }
 
     if (s.ms !== null) {
       timer.current = setTimeout(() => {
@@ -227,7 +237,7 @@ export default function NorthstarDemo() {
     timer.current = setTimeout(() => resolve('causal'), 6000)
     return () => clearTimeout(timer.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepIdx, inView, reduced])
+  }, [stepIdx, inView, reduced, paused])
 
   const resolve = (mode) => {
     clearTimeout(timer.current)
@@ -261,12 +271,17 @@ export default function NorthstarDemo() {
         <p className="font-mono text-[0.62rem] tracking-[0.2em] whitespace-nowrap text-slate uppercase">
           Northstar console
         </p>
+        <div className="flex items-center gap-2">
+        {!reduced && (
+          <PlaybackToggle paused={paused} onToggle={() => setPaused((v) => !v)} label="the Northstar walkthrough" />
+        )}
         {/* Teal like Atlas — these are real committed figures — but the estate
             they were measured on is synthetic by design, and the badge says so. */}
         <p className="rounded-full border border-teal-600/50 px-2.5 py-0.5 text-center font-mono text-[0.56rem] tracking-[0.18em] text-teal-400 uppercase">
           Real run
           <span className="hidden sm:inline"> · synthetic estate</span>
         </p>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">

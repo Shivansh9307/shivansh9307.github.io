@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "shots": "node scripts/screenshot.mjs"
+    "shots": "node scripts/screenshot.mjs",
+    "og": "node scripts/og.mjs"
   },
   "dependencies": {
     "framer-motion": "^11.15.0",

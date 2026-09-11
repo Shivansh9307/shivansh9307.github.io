@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
+import PlaybackToggle from './PlaybackToggle'
 
 // Scripted walkthrough of the Compliance Radar. All figures shown are
 // illustrative demo data (labelled SIMULATED in the UI), not live output.
@@ -162,7 +163,12 @@ export default function RadarDemo() {
   const [feed, setFeed] = useState([])
   const [resolution, setResolution] = useState(null) // 'approved' | 'rejected'
   const [cycle, setCycle] = useState(0)
+  const [paused, setPaused] = useState(false)
   const timer = useRef(null)
+  // The advance effect re-runs when `paused` flips back to false. Without this
+  // the current step's log line would be appended a second time, under a key it
+  // already used — duplicate keys inside AnimatePresence.
+  const lastLogged = useRef(null)
 
   const step = stepIdx >= 0 ? STEPS[stepIdx] : null
   const atCheckpoint = step?.id === 'checkpoint' && !resolution
@@ -177,13 +183,17 @@ export default function RadarDemo() {
 
   // Advance the scripted timeline.
   useEffect(() => {
-    if (reduced || !inView) return
+    if (reduced || !inView || paused) return
     if (stepIdx === -1) {
       timer.current = setTimeout(() => setStepIdx(0), 400)
       return () => clearTimeout(timer.current)
     }
     const s = STEPS[stepIdx]
-    setFeed((f) => [...f.slice(-5), { ...s.log, key: `${cycle}-${stepIdx}` }])
+    const key = `${cycle}-${stepIdx}`
+    if (lastLogged.current !== key) {
+      lastLogged.current = key
+      setFeed((f) => [...f.slice(-5), { ...s.log, key }])
+    }
 
     if (s.ms !== null) {
       timer.current = setTimeout(() => setStepIdx((v) => v + 1 < STEPS.length ? v + 1 : v), s.ms)
@@ -193,7 +203,7 @@ export default function RadarDemo() {
     timer.current = setTimeout(() => resolve('approved'), 6000)
     return () => clearTimeout(timer.current)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stepIdx, inView, reduced])
+  }, [stepIdx, inView, reduced, paused])
 
   const resolve = (decision) => {
     clearTimeout(timer.current)
@@ -226,10 +236,15 @@ export default function RadarDemo() {
         <p className="font-mono text-[0.62rem] tracking-[0.2em] whitespace-nowrap text-slate uppercase">
           Radar console
         </p>
+        <div className="flex items-center gap-2">
+        {!reduced && (
+          <PlaybackToggle paused={paused} onToggle={() => setPaused((v) => !v)} label="the Radar walkthrough" />
+        )}
         <p className="rounded-full border border-amber-600/50 px-2.5 py-0.5 text-center font-mono text-[0.56rem] tracking-[0.18em] text-amber-400 uppercase">
           Simulated
           <span className="hidden sm:inline"> walkthrough</span>
         </p>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_1.15fr]">

@@ -8,6 +8,7 @@ const ENTRIES = [
     period: 'Jan 2025 — Present',
     eyebrow: 'Data & BI Analyst · Self-directed',
     title: 'Independent Projects',
+    kind: 'independent',
     where: 'London, UK',
     // The CV states this plainly; the site should too — an unlabelled portfolio
     // entry sitting in a work timeline reads as a client engagement.
@@ -22,6 +23,7 @@ const ENTRIES = [
     period: 'Jan 2024 — Jan 2025',
     eyebrow: 'Education · Birmingham',
     title: 'MSc Business Analytics (Merit) — Aston University',
+    kind: 'education',
     where: 'Birmingham, UK',
     points: [
       'Data modelling, predictive analytics, machine learning and data visualisation.',
@@ -32,6 +34,7 @@ const ENTRIES = [
     period: 'Sep — Nov 2024',
     eyebrow: 'BI Intern · Royalty & revenue analytics',
     title: 'Koru Green — music & media',
+    kind: 'work',
     where: 'Remote, UK',
     points: [
       'Eliminated a 7.5% revenue understatement risk by identifying that the largest revenue source — 33% of income — was fragmented across two records, and re-keying the model on the unique identifier.',
@@ -43,6 +46,7 @@ const ENTRIES = [
     period: 'Jan 2022 — Dec 2023',
     eyebrow: 'Senior Analyst · Operational performance reporting',
     title: 'HCLTech — Client: Emirates Global Aluminium (EGA), Dubai',
+    kind: 'work',
     where: 'Lucknow, India',
     points: [
       'Cut repeat SLA breaches 15% quarter on quarter and lifted SLA compliance 8 points by analysing performance data across two UAE industrial sites to expose failure patterns and backlog bottlenecks.',
@@ -56,6 +60,7 @@ const ENTRIES = [
     period: 'Sep 2020 — Jan 2022',
     eyebrow: 'Agency Manager · Bancassurance, RBL Bank partnership',
     title: 'HDFC Life',
+    kind: 'work',
     where: 'Lucknow, India',
     points: [
       'Lifted conversion from 15% to 35% and took the territory to #1 in Uttar Pradesh by analysing sales and premium performance across five bank branches to find where conversion was breaking down.',
@@ -66,6 +71,7 @@ const ENTRIES = [
     period: '2013 — 2016',
     eyebrow: 'Education · Commerce & Finance',
     title: 'BCom (Honours) — Amity University',
+    kind: 'education',
     where: 'India',
     points: [],
   },
@@ -81,10 +87,18 @@ function Entry({ entry, index }) {
       transition={{ duration: 0.7, ease: EASE, delay: 0.05 * index }}
       className="relative grid gap-2 pb-14 pl-8 last:pb-0 md:grid-cols-[180px_1fr] md:gap-10 md:pl-10"
     >
-      {/* node marker on the rail */}
+      {/* Node marker on the rail. The fill carries the entry type so paid roles
+          are countable at a glance: solid teal = employment, hollow = education,
+          hollow amber = the unpaid independent work (matching its note border). */}
       <span
         aria-hidden="true"
-        className="absolute top-1.5 left-0 h-2.5 w-2.5 -translate-x-[5px] rotate-45 border border-teal-600 bg-ink-950"
+        className={`absolute top-1.5 left-0 h-2.5 w-2.5 -translate-x-[5px] rotate-45 border ${
+          entry.kind === 'work'
+            ? 'border-teal-600 bg-teal-600'
+            : entry.kind === 'independent'
+              ? 'border-amber-600 bg-ink-950'
+              : 'border-slate/70 bg-ink-950'
+        }`}
       />
       <p className="font-mono text-[0.72rem] leading-6 tracking-[0.14em] text-slate uppercase">{entry.period}</p>
       <div>
@@ -117,6 +131,20 @@ export default function Experience() {
       <SectionHeading number="04" eyebrow="Experience">
         Where the discipline came from.
       </SectionHeading>
+      <ul
+        aria-hidden="true"
+        className="mb-8 flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-[0.6rem] tracking-[0.16em] text-slate uppercase"
+      >
+        <li className="flex items-center gap-2.5">
+          <span className="h-2 w-2 rotate-45 border border-teal-600 bg-teal-600" /> Employment
+        </li>
+        <li className="flex items-center gap-2.5">
+          <span className="h-2 w-2 rotate-45 border border-amber-600 bg-ink-950" /> Independent · unpaid
+        </li>
+        <li className="flex items-center gap-2.5">
+          <span className="h-2 w-2 rotate-45 border border-slate/70 bg-ink-950" /> Education
+        </li>
+      </ul>
       <ol className="relative border-l border-line/60">
         {ENTRIES.map((e, i) => (
           <Entry key={e.title} entry={e} index={i} />

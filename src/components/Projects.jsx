@@ -3,19 +3,19 @@ import SectionHeading from './SectionHeading'
 import NorthstarDemo from './NorthstarDemo'
 import RadarDemo from './RadarDemo'
 import AtlasReceipt from './AtlasReceipt'
+import ClientWork from './ClientWork'
+import PowerBIProof from './PowerBIProof'
+import NorthstarCaseStudy from './NorthstarCaseStudy'
 
 const EASE = [0.22, 1, 0.36, 1]
 
 const REPO = 'https://github.com/Shivansh9307'
 
+// EGA/HCLTech used to sit here. It is paid client delivery and was being
+// out-weighted by three unpaid flagships above it, so it moved to ClientWork
+// alongside Koru Green. What is left is genuinely supporting: repo-backed side
+// projects, neither of them on the CV, kept because both are live public repos.
 const SUPPORTING = [
-  {
-    eyebrow: 'Analyst · Enterprise',
-    title: 'SLA & operational performance — EGA Dubai',
-    body: 'Operational performance reporting for Emirates Global Aluminium at HCLTech — analysing performance data across two UAE industrial sites to expose failure patterns and backlog bottlenecks, then standardising monthly management reporting across incident volume, SLA compliance, backlog and resolution time.',
-    detail: 'Repeat SLA breaches down 15% quarter on quarter, compliance up 8 points, repeat incidents down 18% — and reporting migrated from BMC Remedy to ServiceNow mid-contract with no break in the monthly cycle.',
-    tags: ['ServiceNow', 'BMC Remedy', 'Root cause analysis', 'SLA reporting'],
-  },
   {
     eyebrow: 'Self-directed · AI/LLM',
     title: 'RAG Document Chatbot',
@@ -110,12 +110,13 @@ function Card({ project, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ duration: 0.7, ease: EASE, delay: 0.08 * index }}
-      className="group flex flex-col rounded-2xl border border-line/70 bg-ink-900/50 p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-600/60 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
+      tabIndex={0}
+      className="group flex flex-col rounded-2xl border border-line/70 bg-ink-900/50 p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-600/60 hover:shadow-[0_16px_40px_rgba(0,0,0,0.45)] focus-within:border-teal-600/60"
     >
       <p className="eyebrow mb-4 text-[0.62rem]">{project.eyebrow}</p>
       <h3 className="mb-3 text-xl font-bold tracking-tight text-chalk">{project.title}</h3>
       <p className="text-[0.92rem] leading-relaxed text-slate">{project.body}</p>
-      <p className="mt-3 max-h-0 overflow-hidden font-serif text-[0.95rem] italic text-teal-400 opacity-0 transition-all duration-300 group-hover:max-h-20 group-hover:opacity-100">
+      <p className="mt-3 max-h-24 overflow-hidden font-serif text-[0.95rem] italic text-teal-400 opacity-100 transition-all duration-300 md:max-h-0 md:opacity-0 md:group-hover:max-h-24 md:group-hover:opacity-100 md:group-focus-within:max-h-24 md:group-focus-within:opacity-100">
         {project.detail}
       </p>
       <ul className="mt-auto flex flex-wrap gap-2 pt-5">
@@ -158,6 +159,8 @@ function Flagship({ project, blurb, index }) {
       </div>
 
       <Demo />
+
+      {project.id === 'northstar' && <NorthstarCaseStudy />}
 
       <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
         <ul className="flex flex-wrap gap-2">
@@ -220,6 +223,17 @@ const BLURBS = {
   ),
 }
 
+function BandLabel({ children }) {
+  return (
+    <div className="mb-5 flex items-center gap-4">
+      <p className="eyebrow min-w-0 text-[0.62rem]">{children}</p>
+      {/* The rule is decoration; it gets whatever space the label leaves, and is
+          dropped entirely on narrow screens where there is none to give. */}
+      <span aria-hidden="true" className="hidden h-px flex-1 bg-line/60 sm:block" />
+    </div>
+  )
+}
+
 export default function Projects() {
   return (
     <section id="projects" className="mx-auto max-w-[1200px] px-6 py-24 md:px-10 md:py-28">
@@ -227,16 +241,30 @@ export default function Projects() {
         Built to be audited.
       </SectionHeading>
 
-      {/* Two co-flagships, stacked: RadarDemo and AtlasReceipt are both wide
-          consoles and would be unreadable side by side. */}
-      <div className="mb-8 flex flex-col gap-8">
+      {/* Three co-flagships, stacked: the demos are wide consoles and none
+          survives half-width. */}
+      <BandLabel>Independent projects · built and documented in public</BandLabel>
+      <div className="mb-14 flex flex-col gap-8">
         {FLAGSHIPS.map((p, i) => (
           <Flagship key={p.id} project={p} blurb={BLURBS[p.id]} index={i} />
         ))}
       </div>
 
+      {/* The artefact the role actually hires for. See PowerBIProof.jsx. */}
+      <BandLabel>Power BI layer · shipped report pages</BandLabel>
+      <div className="mb-14">
+        <PowerBIProof />
+      </div>
+
+      {/* Paid client delivery — see ClientWork.jsx for why it has its own band. */}
+      <BandLabel>Client delivery · paid engagements</BandLabel>
+      <div className="mb-14">
+        <ClientWork />
+      </div>
+
       {/* Supporting cards */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <BandLabel>Also built · public repos</BandLabel>
+      <div className="grid gap-6 md:grid-cols-2">
         {SUPPORTING.map((p, i) => (
           <Card key={p.title} project={p} index={i} />
         ))}

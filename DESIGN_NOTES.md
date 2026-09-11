@@ -323,7 +323,13 @@ note under the console explains why the synthetic data is a feature. The site no
 three provenance states; do not collapse them into two.
 
 **Three numbers that must stay distinct.** `+126.7%` naive, `+96.4%` DiD-corrected, `+81.0%`
-recorded truth. The CV bullet compresses this to "+126.7% against a true +81.0% … removing
+recorded truth.
+
+> **Resolved 2026-09-11.** The CV was rewritten and now states all three explicitly; the
+> paragraph below describes the *old* bullet and is kept as the record of why the rule
+> exists. See "CV swap" at the end of revision 5.
+
+The CV bullet compresses this to "+126.7% against a true +81.0% … removing
 64% of the bias", which reads as though +81.0% were the corrected estimate. It is not; it is
 the answer both estimates are scored against. Every surface that quotes one of these must
 quote the axis, not the compression.
@@ -357,3 +363,287 @@ decision — they are user-supplied, not invented.
   (`northstar-causal-demand-analytics`, `compliance-radar`, `atlas-analytics`).
 - "PL-300 expected 2026" is not on the site or the new CV. "open to hybrid / remote UK"
   still shows in About — confirm it still holds.
+
+---
+
+## Post-launch revision 5 — hiring-manager review (2026-09-10)
+
+The site was read the way a hiring manager reads it: CV first, then the portfolio,
+looking for mismatches. It scored well on craft and badly on two things — the
+evidence was weighted toward unpaid work, and the page never showed the artefact
+the roles are actually hiring for. This revision fixes what could be fixed in code;
+the rest is listed under TODO below because it needs assets only the owner has.
+
+### Role and title, settled
+
+The owner confirmed the target role as **Data & BI Analyst**. "Power BI Developer"
+is gone from `<title>`, the meta description and the hero badge — the site, the CV
+headline and LinkedIn now say one thing. The hero badge also carries the
+right-to-work signal ("No UK sponsorship needed"), which was previously buried
+fourth in the About `FACTS` list, a third of the way down the page.
+
+About's "three years across enterprise IT, insurance and a music-analytics startup"
+became "nearly four" — HDFC Life (1y5m) + HCLTech (2y) + Koru Green (3m) is 3y7m,
+and rounding *down* was costing a bracket in recruiter filters that ask for 3–5.
+
+### StatsBar: the mix was the problem, not the numbers
+
+Of four headline stats, exactly one came from paid employment; two were from unpaid
+projects and one from a dissertation. A page arguing for employability was leading
+with work nobody paid for. The band now runs **two paid, one project, one academic**:
++8 points SLA compliance (HCLTech), 7.5% understatement risk removed (Koru Green),
+60 → 4 directors (Radar), 0.64 PR-AUC (dissertation).
+
+`19` came off. It was the one stat whose caption had to be read before the number
+parsed — a large teal figure that means something *bad*. It still carries the
+Northstar blurb, where it has context.
+
+The `from` field on a `STATS` entry renders a dimmed "60 →" annotation before the
+counted value. The fall is the finding; a bare `4` is not.
+
+### ClientWork — a new band, and why it is not badged
+
+`ClientWork.jsx` promotes the two paid engagements (EGA/HCLTech, Koru Green) out of
+the supporting-card grid into their own band between the flagships and the leftovers.
+Three unpaid flagship consoles were out-weighting two years of real client delivery.
+Projects now reads in three labelled bands: **Independent projects** → **Client
+delivery · paid engagements** → **Also built · public repos**.
+
+**It deliberately carries no provenance badge.** SIMULATED / REAL RUN · COMMITTED /
+REAL RUN · SYNTHETIC ESTATE label the flagships' *demo data*. There is no demo data
+in ClientWork — it is prose plus a chart of CV figures — and a fourth badge would
+blur a three-way distinction the site works hard to keep sharp.
+
+**One honest-charting note.** The EGA card draws 15% / 18% / 30% on one shared 0–30
+scale because all three are the same unit. The +8-point SLA compliance lift is a
+different unit and is called out as a figure rather than drawn on that axis — and
+the CV gives no baseline, so a before/after bar would have been invented precision.
+
+### Northstar case study — the parallel-trends failure is the point
+
+`NorthstarCaseStudy.jsx`, a native `<details>` under the Northstar demo, sourced
+from the `northstar-causal-demand-analytics` README (the sanctioned second source
+alongside the CV). Six steps: the decision → why the naive comparison is
+contaminated (cannibalisation −6.1%/−16.4%, stockouts 2.95% vs 0.034%) → control
+selection → **the check that failed** → what changed in the plan → external validity
+on Rossmann.
+
+The centrepiece is that **parallel trends does not hold** — 11 of 13 pre-treatment
+leads are significant, so +96.4% is reported as an upper bound, not a point estimate,
+and the residual 15.4pp to truth is attributed to the violation rather than explained
+away. This is the strongest thing on the site: it is the part most portfolios delete,
+and it is the one claim a sceptical interviewer cannot argue him into, because he
+argued himself into it first.
+
+Two control-selection error figures in that README are stated ambiguously (unclear
+whether they are estimates or error magnitudes), so the control comparison is
+described qualitatively. Do not "restore" those numbers without re-reading the repo.
+
+### Accessibility
+
+- **Pause control** (`PlaybackToggle.jsx`) on both looping consoles. WCAG 2.2.2 wants
+  a user-operable control for auto-updating content past five seconds; reduced-motion
+  is an OS setting, not that control. Not rendered under reduced motion — there is no
+  motion to pause. The advance effect re-runs when `paused` flips back, so both demos
+  now carry a `lastLogged` ref; without it the current step's log line is appended a
+  second time under a key it already used, and `AnimatePresence` sees duplicate keys.
+- **Hover-only card detail** was invisible to every touch visitor and every keyboard
+  user. Now visible unconditionally below `md`, and `md:group-focus-within:` mirrors
+  every `md:group-hover:` above it. The cards take `tabIndex={0}` so the one without a
+  repo link is still reachable.
+- **Footer contrast**: `text-slate/60` was ~3.4:1 at 10.4px. Now `/80` — measured
+  5.16:1 by painting the computed colour into a canvas and reading the pixel back.
+  Do *not* measure Tailwind v4 colours by regexing `getComputedStyle().color`; it
+  emits `color-mix()`, and a naive parser returns nonsense.
+- **Nav tap targets** were ~25px, at the WCAG 2.5.8 floor. `py-1.5` → `py-2.5` gives
+  37px. Height only: the pill already spans the full 375px viewport, so raising the
+  font size would have overflowed it.
+- **Experience rail markers** now encode entry type — solid teal for employment,
+  hollow amber for the unpaid independent work, hollow slate for education — with a
+  legend above the list. Six entries with identical markers meant a manager counting
+  years of employment had to disentangle two degrees and one unpaid entry first.
+
+### Motion
+
+- **ScrollSpine** (D1): fixed left-gutter rail, scroll progress as a filling rule with
+  one node per section. `xl:` and up only — below that there is no gutter to live in.
+  Nodes are real anchors. Returns `null` under reduced motion rather than rendering
+  inert, since it carries nothing the nav doesn't.
+  **It repeats the section ids a third time.** `Nav.jsx` LINKS and each section's own
+  `id` were already two; adding or renaming a section now means editing three places.
+- **Horizon lines** (D3): the section-opener hairline in `SectionHeading` was static
+  and now draws left-to-right on entry. One `scaleX` on an element that already existed.
+- **ClosingFrame** (D7): a final full-bleed statement — *"Every number on this page
+  traces to a source. Ask me about any of them."* — closing the argument the hero opens.
+- **D2 (draw-on sparklines in StatsBar) was dropped, deliberately.** A sparkline needs
+  a series. Two of the four stats have a real before/after pair (60→4, 0.14→0.64) and
+  two have no baseline anywhere in the CV, so three of four marks would have been
+  invented shapes. Drawing a decorative line under a number on *this* site is the exact
+  failure it argues against. Revisit only if the underlying series turn up.
+
+### Performance and distribution
+
+- **`public/og.png`** (1200×630) plus full Open Graph and Twitter Card tags. The link
+  previously pasted into LinkedIn as a bare grey URL, throwing away the site's best
+  asset. Generated by `scripts/og.mjs` (`npm run og`) — a standalone Playwright render
+  that does **not** need the dev server, unlike `screenshot.mjs`. The card restates the
+  three-mark axis; regenerate it if the headline or those figures change.
+  The card's palette is a hand-copy of `@theme` — it is not imported. Keep in sync.
+- **JSON-LD `Person`**, canonical link, `robots.txt`, `sitemap.xml`, and a themed
+  `public/404.html` (static — its palette is a second hand-copy of `@theme`).
+- **Fonts** load off the critical path: `preload as=style` plus a `media="print"`
+  onload swap, with a `<noscript>` fallback. `display=swap` was already in the URL.
+- **Portrait** was 800×1200 for a slot never wider than 320 CSS px. Now 640×960 with
+  `fetchPriority="high"` — 143 KB → 98 KB on the LCP element.
+
+### TODO: verify / blocked on assets — revision 5
+
+- ~~No Power BI artefact anywhere on the site.~~ **Done — see "Closing the four open
+  items" below.** The premise was wrong: the screenshots were never blocked on the
+  owner, they were already committed to the public repos.
+- **No certification** on the site or the CV. `DESIGN_NOTES` revision 4 recorded that
+  "PL-300 expected 2026" was dropped; if it is in progress, say so.
+- **No availability or notice period** in Contact — not added, because inventing it was
+  not an option and the owner has not stated it.
+- ~~CV bullet M1 still unfixed.~~ **Done 2026-09-11** — see "CV swap" below.
+- **WebP for the portrait** not done: `cwebp` is not installed and `sips` on this
+  machine has no WebP encoder. The JPG is correctly sized, so this is a small win.
+- **Skills wall left at 56 pills by the owner's explicit decision (2026-09-10)**,
+  confirming the revision-4 call. ~20 are neither CV- nor repo-backed (Fabric,
+  Snowflake, MS SQL Server, MySQL, Power Apps, Zapier, n8n, RLS, Incremental Refresh,
+  Deployment Pipelines, …). Noted here as a standing interview exposure, not a defect
+  to fix: "tell me about your Fabric work" has no answer on the site or the CV.
+- ~~No analytics.~~ **Done — GoatCounter, chosen by the owner 2026-09-11.** Still
+  inert until the account exists; see below.
+
+
+### Closing the four open items (2026-09-11)
+
+Same cycle finishing, not a new one.
+
+**The Power BI gap was never blocked on the owner.** Revision 5 recorded it as needing
+"exported PNGs only the owner has". That was wrong, and checking would have cost one
+API call: `northstar-causal-demand-analytics` publishes all five decision pages at
+`powerbi/screenshots/`, `compliance-radar` publishes two at `powerbi/Screenshots/`, and
+`powerbi/measures.dax` is public alongside them. **Check the repos before recording
+something as blocked on a person.**
+
+`PowerBIProof.jsx` now sits between the flagships and `ClientWork`, under the band
+label `Power BI layer · shipped report pages` — deliberately ahead of the paid-work
+band, because for a Data & BI Analyst role it is the artefact being hired for.
+
+- **Seven pages, two tiers each.** A 760px thumbnail (lazy, ~50 KB) and a 1500px
+  full-size file fetched only when the lightbox opens. Keep the split: initial load is
+  481 KB, the thumbnails add 388 KB below the fold, and the 1029 KB of full-size files
+  costs nothing unless someone clicks. Eager-loading them all would have quadrupled the
+  page.
+- **The Radar pair are Power BI Desktop captures**, so the page-tab bar and device
+  toolbar are cropped off. Nothing is recoloured or composited — these are the reports
+  as built.
+- **Lightbox is a native `<dialog>`**: focus trap, Escape and focus-restore for free.
+  `m-auto` on it is **load-bearing** — a modal `<dialog>` is centred by the UA's
+  `margin: auto`, Tailwind's preflight resets margins to `0`, and without it the dialog
+  pins to the top-left *and* backdrop-to-close silently stops working, because there is
+  no backdrop left above or beside it to click. This shipped broken and was caught by
+  testing the close paths individually rather than assuming one implied the others.
+- **DAX specimen**: five measures verbatim from `measures.dax`, including the author's
+  own `// expects 126.7368` comments — the model is checked against known values. The
+  fifth, `Estimate Health`, is the reason that set was chosen over anything flashier:
+  a `SWITCH` that labels the model's own output *"Within 20pp — upper bound"*. The
+  site's entire thesis, asserted in the semantic model rather than in prose.
+- **Measure count checked.** `measures.dax` defines ~44 measures (50 top-level `name =`
+  lines, six of which are `VAR`s inside other measures). The CV's "45 DAX measures"
+  stands — an earlier note flagging it as possibly wrong was based on a summariser's
+  loose estimate, not a count. No CV change needed on that point.
+
+**BandLabel regression, caught at 375px.** `shrink-0` on the label stopped it wrapping,
+so "Independent projects · built and documented in public" sat 501px wide in a 375px
+viewport and put the *whole page* into horizontal scroll — a defect introduced in
+revision 5 and missed because that pass never measured `scrollWidth` at 375. It does
+now, and the trailing rule is dropped below `sm` where there is no room for it.
+`fetchPriority` was also corrected to lowercase `fetchpriority`; React 18 does not
+recognise the camelCase prop and was logging a warning on every load.
+
+**D2 (StatsBar sparklines) is settled, not deferred.** Declined a second time, by the
+owner, for the same reason: `+8 points` and `7.5%` are *deltas* — they are the change,
+so they have no "before", and no baseline exists in the CV or any repo. Three of four
+marks would have been invented shapes. `from: '0.14'` was added to the AUC stat so the
+two genuine before/after pairs (`60 → 4`, `0.14 → 0.64`) read alike. **Do not propose
+this a third time** without the underlying series.
+
+**Analytics: GoatCounter.** One tag before `</body>`, plus a `cv-download` event on
+both CV links (optional-chained, so an ad blocker changes nothing). Collects page path,
+referrer and a coarse browser/country string — no cookies, no cross-site identifier, no
+consent banner. Verified cookie-free with no console errors.
+
+> **It reports nothing until the account exists.** Register `shivansh9307` at
+> goatcounter.com/signup, or change the `data-goatcounter` code in `index.html` to
+> whichever code is registered. This could not be verified from here and was not
+> claimed to work.
+
+### CV swap — M1 closed (2026-09-11)
+
+New CV supplied, adopted over `public/Shivansh_Chauhan_CV.pdf`. Diffing the extracted
+text of both PDFs, **the only change is the Northstar bullet**; every other figure is
+identical, and both are still two pages, so the added line did not spill the layout.
+
+Removed:
+
+> Proved the standard promotional-lift measure overstates returns by half again
+> (+126.7% against a true +81.0%), correcting it with difference-in-differences to
+> remove 64% of the bias.
+
+Added, in its place:
+
+> Showed the standard promotional-lift measure overstates returns by half again — a
+> naive +126.7% against a recorded truth of +81.0%. Difference-in-differences on
+> uncannibalised controls brought it to +96.4%, removing 64% of the bias.
+>
+> Reported the corrected figure as an upper bound rather than a point estimate:
+> pre-treatment testing showed parallel trends did not hold (11 of 13 leads
+> significant), and the write-up attributes the residual 15.4pp to that violation.
+
+**No site copy changed, and that is the correct outcome.** The re-sync ritual in
+`CLAUDE.md` exists for when CV figures move; none did. The site already carried all
+three percentages and already told the parallel-trends story in `NorthstarCaseStudy`,
+sourced from the repo README. This time the CV caught up to the site rather than the
+other way round — so the re-sync was a diff, a file swap, and a documentation
+correction. **Diff first; do not re-sync reflexively.**
+
+Two operational traps worth remembering, both live at the moment the file lands:
+
+- **`public/` ships everything verbatim.** The new CV arrived as
+  `Shivansh_Chauhan_CV_new.pdf` *alongside* the old one. Deployed in that state the site
+  would have published two competing CVs — the new one live at a guessable URL, while
+  every Download CV button still served the old one. A replacement CV must **overwrite
+  the canonical filename**, never sit beside it.
+- **Keep the filename stable.** The URL is likely already in sent applications and on
+  LinkedIn, it is what lands in a recruiter's downloads folder, and repointing the links
+  to a `_new` path would both 404 the shared copies and make the download read as a
+  draft. `Hero.jsx` and `Contact.jsx` were left untouched for exactly that reason.
+
+`public/.DS_Store` was also removed while in there — 6 KB of Finder metadata that was
+deploying to the site root. Being in `.gitignore` does not stop Vite copying it out of
+`public/`; check for it whenever that folder is touched.
+
+### Analytics live (2026-09-11)
+
+GoatCounter account registered as `shivansh9307`; the `data-goatcounter` code in
+`index.html` already matched, so no code change was needed to switch it on. Verified
+end-to-end against the live account: the pageview and the `cv-download` event both
+return **200**, and no cookie is set.
+
+**`count.js` will not count on `localhost`.** It logs `goatcounter: not counting
+because of: localhost` as a console *warning* and sends nothing — deliberate, so local
+development does not pollute real stats. A first test here looked like a dead tag for
+exactly this reason. To exercise it locally, inject `window.goatcounter = { allow_local:
+true }` before the script runs (Playwright's `addInitScript` does this without touching
+the file); never commit that setting.
+
+The script URL was also changed from protocol-relative `//gc.zgo.at/count.js` to
+explicit `https://`. Over plain http the protocol-relative form took a 301 hop to https
+before loading — harmless on the deployed https site, but a pointless round-trip and
+deprecated practice either way.
+
+What it collects: page path, referrer, and a coarse browser/screen/country string. No
+cookies, no cross-site identifier, no consent banner required.

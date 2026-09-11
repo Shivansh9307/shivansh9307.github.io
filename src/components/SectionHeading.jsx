@@ -22,7 +22,14 @@ export default function SectionHeading({ number, eyebrow, children }) {
         <span>
           {number} — {eyebrow}
         </span>
-        <span aria-hidden="true" className="h-px flex-1 bg-line/60" />
+        <motion.span
+          aria-hidden="true"
+          className="h-px flex-1 origin-left bg-line/60"
+          initial={reduced ? false : { scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 1, ease: EASE, delay: 0.25 }}
+        />
       </motion.p>
       <motion.h2
         initial={reduced ? false : 'hidden'}

@@ -26,7 +26,7 @@ export default function Contact() {
           transition={{ duration: 0.8, ease: EASE }}
         >
           <p className="max-w-xl text-lg leading-relaxed text-slate">
-            Hiring for a <strong className="font-medium text-chalk">Power BI, data analyst or analytics engineering</strong> role —
+            Hiring for a <strong className="font-medium text-chalk">Data &amp; BI Analyst, Power BI or analytics</strong> role —
             or want a second pair of eyes on a{' '}
             <em className="font-serif italic text-teal-400">governance-heavy data problem</em>? My inbox is open.
           </p>
@@ -49,6 +49,7 @@ export default function Contact() {
               <a
                 href={l.href}
                 download={l.download}
+                onClick={l.download ? () => window.goatcounter?.count({ path: 'cv-download', title: 'CV download', event: true }) : undefined}
                 {...(l.external ? { target: '_blank', rel: 'noreferrer' } : {})}
                 className="group flex items-center justify-between py-4 font-mono text-[0.78rem] tracking-[0.14em] text-slate uppercase transition-colors hover:text-teal-400"
               >

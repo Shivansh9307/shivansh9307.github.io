@@ -111,7 +111,7 @@ export default function Hero() {
               )}
               <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-400" />
             </span>
-            Open to Power BI / Data Analyst roles · UK
+            Open to Data &amp; BI Analyst roles · No UK sponsorship needed
           </motion.p>
 
           <h1 className="text-[clamp(2.5rem,6.6vw,5.1rem)] leading-[1.04] font-bold tracking-tight">
@@ -134,9 +134,13 @@ export default function Hero() {
             Data &amp; BI Analyst in London, UK. I build in{' '}
             <strong className="font-medium text-chalk">Power BI, SQL and Python</strong> — with
             causal inference and validation underneath, so an expensive mistake gets caught before
-            it reaches a decision: a promotional-lift estimate scored against a known answer, a
-            compliance screen whose false alarms fall from 60 to 4, an analytics engine that blocks
-            its own output when the evidence doesn&rsquo;t hold up.
+            it reaches a decision
+            <span className="hidden md:inline">
+              : a promotional-lift estimate scored against a known answer, a compliance screen whose
+              false alarms fall from 60 to 4, an analytics engine that blocks its own output when the
+              evidence doesn&rsquo;t hold up
+            </span>
+            .
           </motion.p>
 
           <motion.div
@@ -148,7 +152,12 @@ export default function Hero() {
             <MagneticButton href="#projects" variant="primary">
               View projects <span aria-hidden="true">→</span>
             </MagneticButton>
-            <MagneticButton href="/Shivansh_Chauhan_CV.pdf" download="Shivansh_Chauhan_CV.pdf" variant="secondary">
+            <MagneticButton
+              href="/Shivansh_Chauhan_CV.pdf"
+              download="Shivansh_Chauhan_CV.pdf"
+              variant="secondary"
+              onClick={() => window.goatcounter?.count({ path: 'cv-download', title: 'CV download', event: true })}
+            >
               Download CV
             </MagneticButton>
           </motion.div>
@@ -165,8 +174,10 @@ export default function Hero() {
             <img
               src={portrait}
               alt="Portrait of Shivansh Chauhan"
-              width="800"
-              height="1200"
+              width="640"
+              height="960"
+              fetchpriority="high"
+              decoding="async"
               className="h-[340px] w-full object-cover object-top saturate-[0.9] md:h-[480px]"
             />
             <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink-950/60 via-transparent to-transparent" />
