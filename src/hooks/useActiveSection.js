@@ -1,32 +1,62 @@
 import { useEffect, useState } from 'react'
 
-// Tracks which section id currently dominates the viewport.
+// Tracks which section currently dominates the viewport.
+//
+// RANKS BY SHARE OF THE VIEWPORT, not by IntersectionObserver's
+// `intersectionRatio`. That ratio is visible-area ÷ the *section's own* height, which
+// answers "how much of this section is on screen" when the question is "which section
+// is on screen" — and it is structurally biased against tall sections. Measured at a
+// 900px viewport, Projects (6251px) could never score above 0.144 even filling the
+// whole screen, while Skills (1302px) hit 0.691 on a sliver of its tail and won. The
+// nav highlighted "Skills" while you were looking at Projects. Do not revert to ratio.
+//
+// The same ratio also governed the observer's thresholds, so every threshold above 0
+// was unreachable for Projects and the observer never fired across 6251px of scrolling.
+// IntersectionObserver cannot express viewport-share cleanly for that reason: tracking
+// a section that tall needs a dense threshold array and still quantises to roughly one
+// update per 445px. Seven getBoundingClientRect reads coalesced into one animation
+// frame are exact, continuous and cheap.
 export default function useActiveSection(ids) {
   const [active, setActive] = useState(ids[0])
 
   useEffect(() => {
-    const ratios = new Map()
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) ratios.set(e.target.id, e.intersectionRatio)
-        let best = null
-        let bestRatio = 0
-        for (const id of ids) {
-          const r = ratios.get(id) ?? 0
-          if (r > bestRatio) {
-            best = id
-            bestRatio = r
-          }
+    let frame = null
+
+    const measure = () => {
+      frame = null
+      const vh = window.innerHeight
+      if (!vh) return
+      let best = null
+      let bestCoverage = 0
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (!el) continue
+        const { top, bottom } = el.getBoundingClientRect()
+        const visible = Math.min(bottom, vh) - Math.max(top, 0)
+        const coverage = Math.max(0, visible) / vh
+        if (coverage > bestCoverage) {
+          best = id
+          bestCoverage = coverage
         }
-        if (best) setActive(best)
-      },
-      { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] },
-    )
-    for (const id of ids) {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
+      }
+      // No winner means every tracked section is off-screen — at the page bottom the
+      // untracked ClosingFrame and Footer fill the view. Hold the last one rather than
+      // clearing, so the nav does not blank out under the reader.
+      if (best) setActive(best)
     }
-    return () => observer.disconnect()
+
+    const schedule = () => {
+      if (frame === null) frame = requestAnimationFrame(measure)
+    }
+
+    measure()
+    window.addEventListener('scroll', schedule, { passive: true })
+    window.addEventListener('resize', schedule)
+    return () => {
+      if (frame !== null) cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', schedule)
+      window.removeEventListener('resize', schedule)
+    }
   }, [ids])
 
   return active

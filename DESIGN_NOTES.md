@@ -792,3 +792,56 @@ leaving 320 broken for four other reasons. Fixing 320 properly is its own job.
 The CV says "MSc Business Analytics (Merit)" and nothing about distinctions — an invented
 embellishment on the one section whose whole argument is traceability. Replaced with
 "Postgraduate · Business analytics".
+
+### Nav highlighting on tall sections (2026-09-11)
+
+Clicking **Projects** highlighted "Skills". Both the nav pill and the scroll spine were
+wrong because both read `useActiveSection`, which ranked sections by
+`IntersectionObserver`'s `intersectionRatio` — **visible area ÷ the section's own
+height**. That asks "how much of this section is on screen" when the question is "which
+section is on screen".
+
+Measured at a 900px viewport, the maximum ratio each section could *ever* reach:
+
+| section | height | max ratio |
+|---|---|---|
+| home | 900px | 1.000 |
+| about | 1058px | 0.851 |
+| skills | 1302px | 0.691 |
+| **projects** | **6251px** | **0.144** |
+| experience | 1259px | 0.715 |
+| education | 656px | 1.000 |
+| contact | 533px | 1.000 |
+
+Projects was **structurally incapable of winning**: filling the whole screen it scored
+0.144, while Skills scored 0.691 on a sliver of its tail.
+
+**Two further faults compounded it, and the direct measurement is worth recording.**
+After clicking "Projects" the page sits at scrollY 3458, where Projects fills the entire
+viewport (900px visible) and Skills is at **0px** — yet the old build still highlighted
+Skills. Ranking alone does not explain that. The cause: thresholds are expressed in the
+same target-relative ratio, so `[0, 0.2, 0.4, 0.6, 0.8, 1]` put every threshold above `0`
+out of reach for Projects. It only ever fired crossing `0`, where the reported ratio is
+≈0, so its cached value stayed 0 — and the ranking loop's `let bestRatio = 0` with a
+strict `r > bestRatio` meant nothing could beat 0, `best` stayed null, and `setActive`
+was never called at all. The nav held whatever it said before.
+
+**Fix: rank by `visible / innerHeight`** — size-fair, and whichever section fills most of
+the screen wins. IntersectionObserver was dropped with it, not by preference: its
+thresholds cannot express viewport share for a 6251px section, and a dense threshold
+array would still quantise to roughly one update per 445px. Seven
+`getBoundingClientRect` reads coalesced into one `requestAnimationFrame` are exact and
+continuous — measured median 16.7ms frames, p95 17.9ms, **zero frames over 20ms**.
+
+Verified before/after against the live site: clicking the six nav links went 5/6 → 6/6 at
+1440 and 6/6 at 375, and a 100px sweep across the Skills→Projects boundary showed the old
+build calling it "skills" for a ~400px band (3100–3458) where the majority of the screen
+was already Projects. Preserved: nothing highlighted at scroll 0, Contact still lit at
+the page bottom where the untracked ClosingFrame and Footer dominate, and nav/spine
+agreeing at all 29 stops of a full-page walk.
+
+**Harness note.** `html { scroll-behavior: smooth }` makes programmatic `scrollTo`
+animate, and a sampler stepping faster than the animation silently truncates the walk —
+an early run appeared to show the page ending at 4400px of 12732px. Inject
+`scroll-behavior: auto` when measuring scroll position, and settle lazy images first,
+since the page grows as the Power BI thumbnails load.
