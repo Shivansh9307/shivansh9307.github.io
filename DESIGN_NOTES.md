@@ -57,7 +57,7 @@ everywhere — this is the anti-template move.
 ### Motion principles
 
 - Reveal = mask/clip + translate, 0.6–0.9s, custom ease `[0.22, 1, 0.36, 1]`.
-- Hero: word-by-word stagger (80ms); rotating word every 2.6s (clip swap).
+- Hero: word-by-word stagger (80ms); rotating word every 1.15s after a 1.6s first-word hold, 0.35s clip swap (was 2.6s / 0.55s — see revision 5).
 - Everything gated by `useReducedMotion`; canvas pauses on `prefers-reduced-motion` and `document.hidden`.
 - Micro-interactions ≤ 200ms; hover lift 4px max. No parallax soup.
 
@@ -647,3 +647,93 @@ deprecated practice either way.
 
 What it collects: page path, referrer, and a coarse browser/screen/country string. No
 cookies, no cross-site identifier, no consent banner required.
+
+### Hero rotating-word glitch — the mask must not be content-sized (2026-09-11)
+
+Reported as "a glitch while animating to dashboards". Two things were landing on that
+word; measuring the live page frame-by-frame separated them.
+
+**The reported glitch: the mask resized mid-transition and sheared the outgoing word.**
+`RotatingWord` used `<AnimatePresence mode="popLayout">`. `popLayout` pulls the outgoing
+word out of layout flow the instant a transition starts, so the mask — an `inline-block`
+sized by its in-flow content — collapsed to the *incoming* word's width in a single
+frame, while both words were still sliding. With `overflow: hidden` on the mask, the
+outgoing word was then clipped to the narrower box:
+
+```
+t=1330ms  mask 512.3 -> 368.7   causal estimates | absolute | w=512   <- 144px sheared off
+                                dashboards       | static   | w=368.7
+```
+
+Measured overhang past the mask, worst case mid-transition: **241px before, 0px after.**
+
+Every transition did this; only the shrinking ones showed it — `causal estimates → dashboards`
+(−144px) and `semantic models → pipelines` (−241px). The growing two hid it.
+
+**Fix: grid-stack the mask and size it by the longest option, not the current one.** Every
+entry in `ROTATING` is rendered as an invisible `aria-hidden` sizer in grid cell (1,1),
+with the animating word in the same cell. The mask is therefore always as wide as the
+widest option and cannot change width at all — verified constant at 520.7px across all
+four transitions over 11s. The sizers are generated from `ROTATING` itself, so **adding a
+longer word cannot reintroduce this**.
+
+`mode="popLayout"` was dropped with it. It existed only to stop the two words sitting
+side by side during the overlap, which cell-stacking already does — in flow, without
+yanking the outgoing word out of layout and collapsing the box behind it. Both children
+now stay `static`.
+
+**The general rule: an overlapping enter/exit transition cannot live in a
+content-sized `overflow: hidden` box.** The box tracks whichever child is in flow, so it
+will always resize at the exact moment two children need different widths. Reserve the
+maximum width, or don't clip.
+
+Checked rather than assumed: descender headroom stays positive for all four words at 1440
+and 375 (`pipelines` has the only descender; 9.8px and 4.8px of room); the `inline-block`
+→ `inline-grid` switch moved the headline by ≤1px at every measured point; the widest
+word fits inside the 375px content column with no page overflow; the `h1` still reads
+"I build dashboards you can defend." with the sizers excluded from the accessible name;
+and reduced motion still renders one static word with no rotation.
+
+**Font swap: left alone, by decision.** At load, "dashboards" (it is `ROTATING[0]`) paints
+in the Georgia fallback at 483px before Fraunces arrives and it snaps to 369px. That is
+`display=swap` doing its job and predates this work. It is much less disruptive now: with
+the mask no longer content-sized, the swap moves only the mask's invisible right edge —
+the word is alone on its line and left-aligned, so nothing visible shifts and only the
+letterforms change. Self-hosting the three families would remove it outright; judged a
+much larger change than the bug warranted. **Decided, not deferred.**
+
+### Hero rotation sped up (2026-09-11)
+
+The rotating word held each option for **2600ms** with a 0.55s swap, so a visitor waited
+**10.4s** to see the whole claim — longer than anyone spends on a hero — with each word
+sitting motionless for 2s, several times what it takes to read it.
+
+| | before | after |
+|---|---|---|
+| dwell (`DWELL_MS`) | 2600ms | **1150ms** |
+| swap (`SWAP_S`) | 0.55s | **0.35s** |
+| first-word hold (`FIRST_HOLD_MS`) | — | **1600ms** |
+| measured readable time per word | ~2050ms | **783ms** |
+| **full cycle** | **10.4s** | **4.6s** (measured 4600ms) |
+
+**`FIRST_HOLD_MS` is not cosmetic.** The entrance stagger settles at ~1.3s (`Word` runs
+0.9s after a `0.15 + index * 0.08` delay, last index 4). The old 2600ms dwell cleared that
+by 1.3s for free; a 1150ms dwell would have fired the first swap while the headline was
+still assembling, which reads as a glitch rather than as speed. A `setTimeout` holds the
+first word, then hands off to the interval. Measured margin: first swap at 2015ms against
+an entrance settling at 1298ms — **717ms clear**. If the entrance stagger is ever
+shortened, this can come down with it; it must never go below it.
+
+All three constants sit together at the top of `Hero.jsx` beside `ROTATING`, because they
+are the knobs most likely to be retuned.
+
+**783ms of readable time is the deliberate floor.** Enough for a one- or two-word phrase
+and no more; the owner picked this tier over a 1.5s dwell knowing that. If it ever reads
+as twitchy, raise `DWELL_MS` — do not compensate by shortening `SWAP_S`, which would make
+the swap itself harder to follow.
+
+Re-verified that the previous fix holds at the faster cadence: mask width constant at
+520.7px and **zero clipping across 396 overlap frames** once webfonts have settled. (Before
+`document.fonts.ready` the mask measures 643px — the sizers in the Georgia fallback — which
+is the known, accepted `display=swap` behaviour, not a regression.) Reduced motion still
+renders one static word with no timer; 375px still fits with no page overflow.

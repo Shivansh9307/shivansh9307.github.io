@@ -7,6 +7,19 @@ import portrait from '../assets/portrait.jpg'
 const EASE = [0.22, 1, 0.36, 1]
 const ROTATING = ['dashboards', 'semantic models', 'pipelines', 'causal estimates']
 
+// Rotation timing. The old 2600ms dwell meant a visitor waited 10.4s to see the
+// whole claim — longer than anyone spends on a hero — with each word sitting
+// motionless for 2s, several times what it takes to read it. Now 4.6s a cycle.
+//
+// FIRST_HOLD_MS must stay above the entrance stagger's completion (~1.37s: the
+// `Word` reveal runs 0.9s after a 0.15 + index*0.08 delay, last index 4). Below
+// that, the word starts swapping while the headline is still assembling, which
+// reads as a glitch rather than as speed. If the entrance is ever shortened,
+// this can come down with it.
+const DWELL_MS = 1150
+const FIRST_HOLD_MS = 1600
+const SWAP_S = 0.35
+
 // One word inside an overflow mask — the staggered hero reveal unit.
 function Word({ children, index, serif = false }) {
   const reduced = useReducedMotion()
@@ -30,20 +43,51 @@ function RotatingWord() {
 
   useEffect(() => {
     if (reduced) return
-    const t = setInterval(() => setI((v) => (v + 1) % ROTATING.length), 2600)
-    return () => clearInterval(t)
+    const next = () => setI((v) => (v + 1) % ROTATING.length)
+    let interval
+    // Hold the first word until the entrance has landed, then run at DWELL_MS.
+    const start = setTimeout(() => {
+      next()
+      interval = setInterval(next, DWELL_MS)
+    }, FIRST_HOLD_MS)
+    return () => {
+      clearTimeout(start)
+      clearInterval(interval)
+    }
   }, [reduced])
 
+  // The mask is grid-stacked and sized by the LONGEST option, not by the word
+  // currently showing. That is load-bearing, not tidiness: with a content-sized
+  // mask the box resizes in a single frame the moment a transition starts, and
+  // `overflow: hidden` then clips the outgoing word mid-slide — 144px was being
+  // sheared off "causal estimates" on its way out to "dashboards".
+  //
+  // Every option is rendered as an invisible sizer in grid cell (1,1) alongside
+  // the animating word, so the width is the max of all of them and never moves.
+  // Driven off ROTATING itself, so adding a longer word cannot reintroduce the bug.
+  //
+  // No `mode="popLayout"`: it existed to stop the two words sitting side by side
+  // during the overlap, which cell-stacking already does — in flow, without
+  // yanking the outgoing word out of layout and collapsing the box behind it.
   return (
-    <span className="relative inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom text-teal-400">
-      <AnimatePresence mode="popLayout" initial={false}>
+    <span className="relative inline-grid overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom text-teal-400">
+      {ROTATING.map((word) => (
+        <span
+          key={word}
+          aria-hidden="true"
+          className="invisible col-start-1 row-start-1 font-serif italic"
+        >
+          {word}
+        </span>
+      ))}
+      <AnimatePresence initial={false}>
         <motion.span
           key={ROTATING[i]}
-          className="inline-block font-serif italic"
+          className="col-start-1 row-start-1 font-serif italic"
           initial={reduced ? false : { y: '105%' }}
           animate={{ y: 0 }}
           exit={reduced ? undefined : { y: '-105%' }}
-          transition={{ duration: 0.55, ease: EASE }}
+          transition={{ duration: SWAP_S, ease: EASE }}
         >
           {ROTATING[i]}
         </motion.span>
