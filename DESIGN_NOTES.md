@@ -737,3 +737,58 @@ Re-verified that the previous fix holds at the faster cadence: mask width consta
 `document.fonts.ready` the mask measures 643px — the sizers in the Georgia fallback — which
 is the known, accepted `display=swap` behaviour, not a regression.) Reduced motion still
 renders one static word with no timer; 375px still fits with no page overflow.
+
+### Experience → employment only; Education split out (2026-09-11)
+
+The timeline mixed three kinds of entry — self-directed projects, two degrees, three jobs
+— so a reader counting years of employment had to disentangle them first. It now holds
+**Koru Green → HCLTech → HDFC Life** and nothing else, with **Education** as its own
+section (05; Contact moves to 06).
+
+This also brings the site in line with the CV, which has always separated Profile / Core
+Skills / **Projects** / **Experience** / **Education**. The site was the outlier.
+
+**The Independent Projects entry was pure duplication.** Its three bullets were Northstar,
+Compliance Radar and Atlas — all three already flagships in Projects with live demos, the
+Northstar method case study and seven committed Power BI pages. Dropped, nothing moved.
+
+**The disclosure note went with it, and that is not a loosening of standards.** The note
+existed because an unlabelled portfolio entry *inside a work timeline* reads as a client
+engagement. Removing the entry from the timeline removes the thing the note was guarding
+against. The `CLAUDE.md` rule that mandated it has been rewritten so a later pass does not
+re-add it. The word "unpaid" now appears nowhere in `src/`, `index.html` or `public/`, and
+the ClientWork band label lost "· paid engagements" — it was the other half of the same
+contrast, and "Client delivery" already says the thing that matters.
+
+With every entry now the same kind, the `kind` field, the conditional rail marker and the
+three-item legend added last cycle were all dead weight and were removed rather than left
+as unused branches.
+
+**`src/sections.js` — the three-place id invariant is now one.** Section ids used to be
+repeated in each section's `id`, `Nav.jsx`'s `LINKS` and `ScrollSpine.jsx`'s `NODES`. This
+change would have made the first two legitimately diverge, which is precisely how that
+invariant breaks, so the list moved into one module. `Nav` renders `nav: true` entries;
+`ScrollSpine` renders all of them; both track `SECTION_IDS`.
+
+**Dropping HOME from the nav had a non-obvious consequence.** `Nav` derived its tracked
+ids from its rendered links, and `useActiveSection` initialises to `ids[0]` — so removing
+`home` would have highlighted **"About" while the visitor was still looking at the hero**.
+Tracked ids and rendered links are now separate lists. Verified: nothing is highlighted at
+the top of the page.
+
+**Nav width budget.** Seven items measured 426px against a ~343px budget at 375px, so a
+seventh was never possible; `Home` was swapped for `Education` and `px-2` → `px-1.5`
+recovered the difference. Measured 361.6px, fitting 375/390/430 with no page overflow and
+tap targets at 42.6 × 33.9px. **`py-2.5` must not come down** — it is what holds the target
+above the WCAG 2.5.8 24px floor.
+
+**320px is knowingly unsupported.** The nav overflows there — but so did the previous one
+(355px), and at 320 the hero availability badge and both demo consoles overflow too. The
+screenshot harness covers 1440 and 375; 320 has never been in the tested range. A tightening
+pass that fixed only the nav was reverted, because it made every phone's nav tighter while
+leaving 320 broken for four other reasons. Fixing 320 properly is its own job.
+
+**Caught in review:** the new Education eyebrow first read "MSc · Distinction-track merit".
+The CV says "MSc Business Analytics (Merit)" and nothing about distinctions — an invented
+embellishment on the one section whose whole argument is traceability. Replaced with
+"Postgraduate · Business analytics".

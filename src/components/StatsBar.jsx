@@ -4,7 +4,7 @@ import useCountUp from '../hooks/useCountUp'
 //
 // The mix is deliberate: two from paid delivery (HCLTech, Koru Green), one from
 // the independent projects, one academic. An earlier set ran 1/2/1 the other way,
-// which made a page about employability lead with unpaid work. Keep a paid figure
+// which made a page about employability lead with self-directed work. Keep a client
 // in each of the first two slots when this is re-synced.
 const STATS = [
   {

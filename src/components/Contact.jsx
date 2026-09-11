@@ -14,7 +14,7 @@ export default function Contact() {
   const reduced = useReducedMotion()
   return (
     <section id="contact" className="mx-auto max-w-[1200px] px-6 py-24 md:px-10 md:py-28">
-      <SectionHeading number="05" eyebrow="Contact">
+      <SectionHeading number="06" eyebrow="Contact">
         Let&rsquo;s talk data.
       </SectionHeading>
 

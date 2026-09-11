@@ -4,7 +4,7 @@ const EASE = [0.22, 1, 0.36, 1]
 
 // The two paid client engagements, promoted out of the supporting-card grid.
 //
-// Why they get their own band: the three flagships are unpaid self-directed work,
+// Why they get their own band: the three flagships are self-directed work,
 // and a page aimed at hiring managers cannot leave its only *client* delivery as
 // one card in a 3-up row below them. Every figure here is CV-backed.
 //

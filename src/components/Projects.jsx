@@ -12,7 +12,7 @@ const EASE = [0.22, 1, 0.36, 1]
 const REPO = 'https://github.com/Shivansh9307'
 
 // EGA/HCLTech used to sit here. It is paid client delivery and was being
-// out-weighted by three unpaid flagships above it, so it moved to ClientWork
+// out-weighted by three self-directed flagships above it, so it moved to ClientWork
 // alongside Koru Green. What is left is genuinely supporting: repo-backed side
 // projects, neither of them on the CV, kept because both are live public repos.
 const SUPPORTING = [
@@ -257,7 +257,7 @@ export default function Projects() {
       </div>
 
       {/* Paid client delivery — see ClientWork.jsx for why it has its own band. */}
-      <BandLabel>Client delivery · paid engagements</BandLabel>
+      <BandLabel>Client delivery</BandLabel>
       <div className="mb-14">
         <ClientWork />
       </div>

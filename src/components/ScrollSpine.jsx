@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import useActiveSection from '../hooks/useActiveSection'
+import { SECTIONS, SECTION_IDS } from '../sections'
 
 // Fixed left-gutter rail: scroll progress as a filling rule, with one node per
 // section. Turns six separately-revealing sections into one continuous read.
@@ -8,22 +9,14 @@ import useActiveSection from '../hooks/useActiveSection'
 // content column, and below xl there is no gutter to live in. Nodes are real
 // anchors, so it doubles as a second nav for long-page scrolling.
 //
-// SECTION IDS: these repeat the ids owned by each section component, the same way
-// Nav.jsx's LINKS does. Adding or renaming a section means editing all three.
-const NODES = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'skills', label: 'Skills' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'contact', label: 'Contact' },
-]
-
-const IDS = NODES.map((n) => n.id)
+// Renders EVERY section, unlike the nav — a vertical gutter rail has no width
+// pressure, so it keeps the Home node and the scroll-to-top the nav gives up.
+// Both track the same list; ids come from src/sections.js.
+const NODES = SECTIONS
 
 export default function ScrollSpine() {
   const reduced = useReducedMotion()
-  const active = useActiveSection(IDS)
+  const active = useActiveSection(SECTION_IDS)
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
 
