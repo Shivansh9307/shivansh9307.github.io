@@ -6,10 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Single-page portfolio site for Shivansh Chauhan (Data & BI Analyst, London UK), aimed at UK hiring managers for governance/risk/audit-adjacent and applied-AI data roles. GitHub Pages **user site** (`shivansh9307.github.io`): `.github/workflows/deploy.yml` builds and deploys on push to `main`.
 
-Note the nesting: the git repo is `Shivansh9307.github.io/` inside the `Portfolio Website/` folder. All npm commands run from the repo directory, not its parent.
+Note the nesting: the git repo is `shivansh9307.github.io/` inside the `Portfolio website/` folder. All npm commands run from the repo directory, not its parent.
 
 ## Commands
 
+- `npm install` prints `npm warn allow-scripts … esbuild (postinstall)` and reports 5 audit vulnerabilities (2 moderate, 3 high). Neither blocks the dev server or build; `npm approve-scripts` clears the warning. Don't run `npm audit fix` unprompted — it rewrites `package-lock.json`, which CI's `npm ci` depends on.
 - `npm run dev` — Vite dev server on http://localhost:5173
 - `npm run build` / `npm run preview` — production build to `dist/` and local preview
 - Analytics is **GoatCounter** (`index.html`, before `</body>`), cookie-free and consent-free, live against the `shivansh9307` account since 2026-09-11. `window.goatcounter?.count(...)` is optional-chained at both CV links so an ad blocker changes nothing.
@@ -23,27 +24,26 @@ There are no tests and no linter. Verification is visual (screenshots) plus a cl
 
 Vite + React 18 + Tailwind CSS v4 (via `@tailwindcss/vite`; tokens live in `@theme` in `src/index.css` — there is no `tailwind.config`) + Framer Motion. Fonts load from Google Fonts in `index.html` with `display=swap`. `vite.config.js` pins `base: '/'` because this is a *user* site served from the domain root — the usual project-site `base: '/repo-name/'` would break every asset URL.
 
-`src/App.jsx` composes one page from `src/components/`: skip-link → Cursor (desktop accent) → Nav (sticky pill, active section via the `useActiveSection` hook) → ScrollSpine (fixed left-gutter progress rail, `xl:` and up) → Hero (staggered word reveal, rotating word, AmbientCanvas behind) → StatsBar (`useCountUp`) → About → Skills → Projects (contains **NorthstarDemo** + **RadarDemo** + **AtlasReceipt** + **PowerBIProof** + **ClientWork**) → Experience (employment only) → Education → Contact → ClosingFrame → Footer.
+`src/App.jsx` composes the single page from `src/components/` in section order (Hero → StatsBar → About → Skills → Projects → Experience → Education → Contact → ClosingFrame → Footer, with Cursor, Nav and ScrollSpine as overlays). Projects is the big one — it contains NorthstarDemo, RadarDemo, AtlasReceipt, PowerBIProof and ClientWork.
 
-**`useActiveSection` ranks by share of the viewport, not `intersectionRatio`.** That ratio is visible-area ÷ the *section's own* height, which is structurally biased against tall sections: Projects (6251px) could never score above 0.144 while Skills (1302px) reached 0.691, so the nav said "Skills" while you were looking at Projects. The same ratio governed the observer's thresholds, so every threshold above `0` was unreachable for Projects and its cached ratio sat at 0 — with the loop's strict `r > bestRatio` starting from 0, nothing ever beat it and `setActive` simply never ran. The hook now measures `visible / innerHeight` directly on a rAF-throttled scroll+resize listener (median 16.7ms frames, zero over 20ms). **Do not reintroduce IntersectionObserver here** — its thresholds are target-relative and cannot express viewport share for a section that tall.
+**`useActiveSection` ranks by share of the viewport (`visible / innerHeight`) on a rAF-throttled scroll+resize listener, not `intersectionRatio`.** The ratio is relative to the section's own height, so a tall section like Projects (~6000px) can never win and the nav highlights the wrong item. **Do not reintroduce IntersectionObserver here** (full diagnosis, including the measured numbers, in DESIGN_NOTES.md under "Nav highlighting on tall sections").
 
 **Section ids live in `src/sections.js`.** `SECTIONS` is the single list; each section still owns its own `id` attribute, so that pairing is the one thing to keep in sync. `Nav.jsx` renders `SECTIONS.filter(s => s.nav)` and `ScrollSpine.jsx` renders all of them, both tracking `SECTION_IDS` via `useActiveSection`.
 
 **`nav: false` means rendered-nowhere-in-the-pill, not untracked.** `home` is tracked but not rendered: the pill has no room for a seventh item at 375px (measured 426px against a ~343px budget), and tracking `home` is what stops "About" highlighting while the visitor is still on the hero. At the top of the page nothing is highlighted, which is correct. StatsBar deliberately has **no** id — it is `<section aria-label="Career statistics">`, a band between Hero and About rather than a nav destination; don't give it one.
 
-Shared primitives worth reusing rather than re-rolling:
+Reuse the shared primitives (`SectionHeading`, `MagneticButton`, `PlaybackToggle`, `useCountUp`, `.eyebrow` in `src/index.css`) rather than re-rolling them. Gotchas that aren't obvious from reading them:
 
-- `SectionHeading` — the `◆ NN — LABEL` eyebrow plus the oversized masked h2. Every section opens with it. The `◆` marker is reserved for section openers only (see DESIGN_NOTES cycle 3); don't add it to card eyebrows.
-- `MagneticButton` — cursor-leaning anchor; `variant="primary"|"secondary"`, and `caps={false}` for content that must not be uppercased (the email CTA). Prefer the prop over a `normal-case` class, which loses to Tailwind utility ordering.
-- `PlaybackToggle` — the pause/play control on the two looping consoles (WCAG 2.2.2). Not rendered under reduced motion. If you touch a demo's advance effect, keep its `lastLogged` ref: the effect re-runs when `paused` flips back, and without the guard the current step's log line is appended twice under a key it already used.
-- `useCountUp(target, duration = 1400, decimals = 0)` — returns `[ref, displayString]`; put the ref on the element whose viewport entry should start the count. The value is already `.toFixed(decimals)`-formatted, so fractional stats **must** pass `decimals` or they round away (the 0.64 PR-AUC in StatsBar's `STATS` renders as `1` without it). Snaps straight to the target under reduced motion.
-- `.eyebrow` / `.eyebrow-marker` in `src/index.css` — the mono "chart annotation" voice.
+- The `◆` marker in `SectionHeading` is reserved for section openers (DESIGN_NOTES cycle 3); don't add it to card eyebrows.
+- `MagneticButton`: use `caps={false}` for content that must not be uppercased (the email CTA), not a `normal-case` class, which loses to Tailwind utility ordering.
+- `PlaybackToggle` (WCAG 2.2.2, not rendered under reduced motion): if you touch a demo's advance effect, keep its `lastLogged` ref, or the current step's log line is appended twice when `paused` flips back.
+- `useCountUp` returns an already `.toFixed(decimals)`-formatted string, so fractional stats **must** pass `decimals` or they round away (the 0.64 PR-AUC in `STATS` renders as `1` without it).
 
 Projects has three tiers. Up top, **three co-flagships**, stacked full-width (the demos are wide consoles and none survives half-width), each rendered by the `Flagship` component from the `FLAGSHIPS` array with prose in `BLURBS`. Order mirrors the CV, Northstar first:
 
 - **NorthstarDemo** (`src/components/NorthstarDemo.jsx`) — a scripted walkthrough of the causal promotion analytics: an estimate axis carrying naive `+126.7%`, DiD-corrected `+96.4%` and recorded truth `+81.0%`, over a promotion grid that flips 19 loss-making promotions to 10 profitable. Pauses at a naive/causal choice with working buttons (auto-resolves to causal after 6s) before looping. **Those three percentages are three different things** — `+81.0%` is the recorded truth both estimates are scored against, *not* the corrected estimate. The 2026-09-11 CV now states all three explicitly (an earlier one compressed them in a way that read as though `+81.0%` were the correction). Keep them distinct on every surface; that rule is what stopped them collapsing before.
-- **RadarDemo** (`src/components/RadarDemo.jsx`, the largest component) — a scripted state-machine walkthrough (`STEPS` array) of the Compliance Radar: pipeline pulses, network-risk score, then a pause at a human checkpoint with working Approve/Reject buttons (auto-approves after 6s) before looping.
-- **AtlasReceipt** (`src/components/AtlasReceipt.jsx`) — two tabbed example runs of Atlas Analytics, one passing and one vetoed by a validation gate.
+- **RadarDemo** — scripted state-machine walkthrough (`STEPS` array) of the Compliance Radar, pausing at a human Approve/Reject checkpoint (auto-approves after 6s) before looping.
+- **AtlasReceipt** — two tabbed example runs of Atlas Analytics, one passing and one vetoed by a validation gate.
 
 `NorthstarDemo`'s axis positions the rule, the ticks and all three marks inside one inner `absolute inset-x-5 inset-y-0` plot area. That is load-bearing: the outer box's padding gives end-of-scale labels room, and mixing the two coordinate systems misaligns the scale from its own rule — invisible at 1440px, obvious at 375px. New marks go inside the inner box.
 
