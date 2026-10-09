@@ -19,7 +19,7 @@ const EASE = [0.22, 1, 0.36, 1]
 const REDUCTIONS = [
   { label: 'Repeat SLA breaches', value: 15, note: 'quarter on quarter' },
   { label: 'Repeat incidents', value: 18, note: 'against baseline' },
-  { label: 'Manual reporting effort', value: 30, note: 'monthly pack standardised' },
+  { label: 'Manual reporting effort', value: 30, note: 'monthly pack automated · ~15 hrs/month' },
 ]
 const SCALE = 30
 
@@ -57,7 +57,6 @@ function DeltaBars() {
 function ReconcileStrip() {
   const reduced = useReducedMotion()
   const INPUTS = [
-    { v: '5,147', k: 'transactions' },
     { v: '20+', k: 'providers' },
     { v: '158', k: 'markets' },
   ]
@@ -105,12 +104,12 @@ const ENGAGEMENTS = [
     id: 'ega',
     eyebrow: 'Client delivery · HCLTech → Emirates Global Aluminium',
     title: 'SLA & operational performance, two UAE sites',
-    body: 'Two years of operational performance reporting for EGA — analysing performance data across two UAE industrial sites to expose failure patterns and backlog bottlenecks, then standardising the monthly management pack across incident volume, SLA compliance, backlog and resolution time.',
+    body: 'Two years of operational performance reporting for EGA — a Power BI star-schema model (DAX time intelligence, dynamic segmentation, RLS) adopted by executive leadership, over ~4,200 monthly incidents and service requests across two UAE sites, with the monthly management pack automated in SQL and Power Query.',
     headline: { value: '+8', unit: 'points', label: 'SLA compliance' },
     visual: DeltaBars,
     footnote:
-      'Reporting migrated from BMC Remedy to ServiceNow mid-contract — rebuilt on a new data source with no break in the monthly cycle. 90%+ of agreed corrective actions closed within target.',
-    tags: ['ServiceNow', 'BMC Remedy', 'Root cause analysis', 'SLA reporting'],
+      'Findings presented to 25+ stakeholders across Service Desk, Infrastructure, Enterprise Applications and Site Operations, with 90%+ of corrective actions closed within target; 3 junior analysts mentored. Reporting migrated from BMC Remedy to ServiceNow mid-contract with zero disruption.',
+    tags: ['Power BI', 'DAX', 'SQL', 'ServiceNow', 'BMC Remedy', 'SLA reporting'],
   },
   {
     id: 'koru',
@@ -120,7 +119,7 @@ const ENGAGEMENTS = [
     headline: { value: '7.5%', unit: 'risk removed', label: 'revenue understatement' },
     visual: ReconcileStrip,
     footnote:
-      'The largest revenue source — 33% of income — was fragmented across two records; re-keying the model on the unique identifier eliminated the understatement. One provider held 37% of revenue at the lowest rate paid and all quarterly reversals; a 10% rate cut was modelled at 3.67% of quarter.',
+      'The largest revenue source — 33% of income — was fragmented across two records; re-keying the model on the unique identifier eliminated the understatement. One provider held 37% of revenue, at the lowest rate paid, and accounted for all quarterly reversals.',
     tags: ['Tableau', 'Revenue reconciliation', 'Data quality', 'Executive reporting'],
   },
 ]

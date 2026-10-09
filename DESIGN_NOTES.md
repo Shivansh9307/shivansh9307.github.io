@@ -845,3 +845,36 @@ animate, and a sampler stepping faster than the animation silently truncates the
 an early run appeared to show the page ending at 4400px of 12732px. Inject
 `scroll-behavior: auto` when measuring scroll position, and settle lazy images first,
 since the page grows as the Power BI thumbnails load.
+
+---
+
+## Post-launch revision 6 — CV re-sync to the master CV (2026-10-09)
+
+The master CV (`Shivansh_Chauhan_CV_master.pdf`, two pages) replaced
+`public/Shivansh_Chauhan_CV.pdf` byte-for-byte, and the site was re-synced to it.
+
+**Added.** Two earlier roles on the Experience timeline — smallcase (Analytics Associate,
+Jul 2017 – Aug 2020) and Meridian Associates (Accounts Executive, Jun 2016 – Jul 2017) —
+which makes About's years claim "over six years" (the CV's wording; revision 5's "nearly
+four" counted only the three roles then listed). New figures: the Northstar reorder-point
+result (£16,320 per quarter against a flat 95% availability policy; the project is now
+titled "Causal Demand, Promotion & Inventory Analytics" as on the CV), the Radar
+sampling-bias fix (92% against an 8.6% baseline, replaced by an 11.3% random sample),
+and the fuller HCLTech detail (~4,200 monthly incidents, 25+ stakeholders, 3 mentored,
+~15 analyst-hours a month). Skills gained the CV-backed pills; the extra pills decided
+in revision 5 were deliberately left in place.
+
+**Retired.** `5,147 transactions` and `modelled a 10% rate cut at 3.67% of quarter`
+(Koru Green; the CV now says "thousands of transactions" and drops the rate cut),
+`Lifted conversion from 15% to 35% … #1 in Uttar Pradesh` (HDFC Life, rewritten as an
+MIS role), and `Nearly four years`.
+
+**Stats band.** The Koru Green `7.5%` stat was replaced by smallcase's `14%` onboarding
+conversion lift, keeping the two-paid / one-project / one-academic mix from revision 5
+(HCLTech, smallcase | Radar | dissertation). The 7.5% figure is still on the Koru
+Green timeline entry and client-delivery card.
+
+**Not changed.** The hero, meta description, JSON-LD and the Open Graph card (headline
+and the three Northstar figures are unchanged, so `npm run og` was not re-run), and
+`NorthstarCaseStudy` — its "11 of 13 leads significant" comes from the repo README; the
+CV says only that the assumption "only partly held", which is compatible.

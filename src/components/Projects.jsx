@@ -38,13 +38,14 @@ const FLAGSHIPS = [
   {
     id: 'northstar',
     status: 'Flagship · Active',
-    title: 'Northstar — Causal Demand & Promotion Analytics',
+    title: 'Northstar — Causal Demand, Promotion & Inventory Analytics',
     repo: `${REPO}/northstar-causal-demand-analytics`,
     demo: NorthstarDemo,
     tags: [
       'Python',
       'DuckDB',
       'Difference-in-differences',
+      'Inventory optimisation',
       'Power BI (TMDL)',
       '45 DAX measures',
       'Monte Carlo',
@@ -188,7 +189,9 @@ const BLURBS = {
         a plan built on the naive number backs 19 promotions that all lose money
       </strong>
       , where the corrected one backs 10 and captures 96.8% of perfect-knowledge profit on the same
-      budget. Delivered as a five-page Power BI layer over 45 DAX measures.
+      budget. On the inventory side, cost-based reorder points beat a flat 95% availability policy
+      by <strong className="font-medium text-chalk">£16,320 per quarter</strong>. Delivered as a
+      five-page Power BI layer over 45 DAX measures.
     </>
   ),
   radar: (
@@ -203,8 +206,9 @@ const BLURBS = {
       <strong className="font-medium text-chalk">60 directors to 4</strong>. Hand-verifying flagged
       cases against source accounts took the LLM layer&rsquo;s false positives from 18 in 20 to 3
       in 20, <strong className="font-medium text-chalk">holding at 9.2% across 239 unseen
-      companies</strong> — isolating 20 high-risk companies from 10,000, all directors
-      pseudonymised under UK GDPR.
+      companies</strong>. A sampling bias (92% overdue filers against an 8.6% register baseline)
+      was caught and replaced with a reproducible random sample (11.3%) — isolating 20 high-risk
+      companies from 10,000, all directors pseudonymised under UK GDPR.
     </>
   ),
   atlas: (

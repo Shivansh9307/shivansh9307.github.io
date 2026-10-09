@@ -10,9 +10,9 @@ const ENTRIES = [
     title: 'Koru Green — music & media',
     where: 'Remote, UK',
     points: [
-      'Eliminated a 7.5% revenue understatement risk by identifying that the largest revenue source — 33% of income — was fragmented across two records, and re-keying the model on the unique identifier.',
-      'Built four Tableau dashboards for the Managing Director, reconciling 5,147 transactions across 20+ providers and 158 markets into one reporting set passing all 16 accuracy checks.',
-      'Quantified revenue concentration for executive review: one provider held 37% of revenue at the lowest rate paid and all quarterly reversals; modelled a 10% rate cut at 3.67% of quarter.',
+      'Found a 7.5% revenue understatement risk: the largest revenue source (33% of income) was split across two records. Re-keyed the model on the unique identifier to remove it.',
+      'Built four Tableau dashboards for the Managing Director, reconciling thousands of transactions across 20+ providers and 158 markets into one reporting set that passed all 16 accuracy checks.',
+      'Quantified revenue concentration for executive review: one provider held 37% of revenue, at the lowest rate paid, and accounted for all quarterly reversals.',
     ],
   },
   {
@@ -21,21 +21,41 @@ const ENTRIES = [
     title: 'HCLTech — Client: Emirates Global Aluminium (EGA), Dubai',
     where: 'Lucknow, India',
     points: [
-      'Cut repeat SLA breaches 15% quarter on quarter and lifted SLA compliance 8 points by analysing performance data across two UAE industrial sites to expose failure patterns and backlog bottlenecks.',
-      'Reduced repeat incidents 18% against baseline through root cause analysis on high-impact failures, using trend analysis and cross-team investigation to isolate underlying process and technical drivers.',
-      'Achieved 90%+ closure of agreed corrective actions within target by partnering with service desk, infrastructure, application and business stakeholders to validate findings and agree remediation.',
-      'Cut manual reporting effort 30% by standardising monthly management reporting across incident volume, SLA compliance, backlog and resolution time — redirecting that time into investigation.',
-      'Migrated reporting from BMC Remedy to ServiceNow mid-contract, rebuilding the reporting layer on a new data source with no break in monthly management reporting.',
+      'Built a Power BI star-schema model (DAX time intelligence, dynamic segmentation, RLS) adopted by executive leadership to track critical operational KPIs, and automated the monthly management pack with SQL and Power Query, cutting manual reporting effort 30% (~15 analyst-hours a month).',
+      'Gathered and prioritised reporting requirements with EGA management and delivered monthly executive steering packs and weekly operational reviews on incident volume, SLA compliance, backlog and resolution time. Migrated reporting from BMC Remedy to ServiceNow mid-contract with zero disruption.',
+      'Cut repeat SLA breaches 15% quarter on quarter, lifted SLA compliance 8 points and reduced repeat incidents 18% against baseline by analysing ~4,200 monthly incidents and service requests across two UAE sites (Jebel Ali, Al Taweelah) to expose failure patterns and backlog bottlenecks.',
+      'Presented findings to 25+ stakeholders across Service Desk, Infrastructure, Enterprise Applications and Site Operations and agreed remediation, reaching 90%+ closure of corrective actions within target. Mentored 3 junior BI and reporting analysts.',
     ],
   },
   {
     period: 'Sep 2020 — Jan 2022',
-    eyebrow: 'Agency Manager · Bancassurance, RBL Bank partnership',
+    eyebrow: 'Corporate Agency Manager · MIS Analyst',
     title: 'HDFC Life',
     where: 'Lucknow, India',
     points: [
-      'Lifted conversion from 15% to 35% and took the territory to #1 in Uttar Pradesh by analysing sales and premium performance across five bank branches to find where conversion was breaking down.',
-      'Produced weekly performance reporting for branch and regional management, tracking conversion, premium volume and activity against target.',
+      'Produced daily, weekly and monthly MIS reporting across 5 core BFSI systems, consolidating large operational datasets in Excel (XLOOKUP, PivotTables, SUMIFS) and cutting report turnaround 45%.',
+      'Reconciled premium collections and commissions across 15+ branches, identifying billing discrepancies and maintaining 99.8% reporting accuracy.',
+      'Tracked KPIs, advisor productivity and branch performance for regional managers, with ad hoc analysis that reduced process turnaround time 15%.',
+    ],
+  },
+  {
+    period: 'Jul 2017 — Aug 2020',
+    eyebrow: 'Analytics Associate · Fintech product analytics',
+    title: 'smallcase',
+    where: 'Bengaluru, India',
+    points: [
+      'Owned product analytics across three verticals (B2C app, Publisher tools and Broker Gateway), working with engineering to lift event tracking accuracy to 98%+.',
+      'Traced broker-login friction through funnel and retention cohort analysis in SQL and Python, driving a 14% increase in onboarding conversion.',
+      'Launched 12+ self-serve dashboards for product, marketing and partnerships teams, cutting ad hoc data requests 40% and saving around 12 hours a week.',
+    ],
+  },
+  {
+    period: 'Jun 2016 — Jul 2017',
+    eyebrow: 'Accounts Executive',
+    title: 'Meridian Associates',
+    where: 'Lucknow, India',
+    points: [
+      'Managed ledgers, AP/AR and invoicing for 15+ client accounts in Tally ERP and built monthly MIS packs, with automated Excel reconciliations that cut discrepancy resolution time 30%.',
     ],
   },
 ]

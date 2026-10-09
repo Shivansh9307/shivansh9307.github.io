@@ -2,7 +2,7 @@ import useCountUp from '../hooks/useCountUp'
 
 // All figures are CV-backed — no invented metrics.
 //
-// The mix is deliberate: two from paid delivery (HCLTech, Koru Green), one from
+// The mix is deliberate: two from paid delivery (HCLTech, smallcase), one from
 // the independent projects, one academic. An earlier set ran 1/2/1 the other way,
 // which made a page about employability lead with self-directed work. Keep a client
 // in each of the first two slots when this is re-synced.
@@ -12,10 +12,9 @@ const STATS = [
     label: 'points of SLA compliance gained across two UAE industrial sites at HCLTech',
   },
   {
-    value: 7.5,
-    decimals: 1,
+    value: 14,
     suffix: '%',
-    label: 'revenue understatement risk eliminated at Koru Green by re-keying the model',
+    label: 'increase in onboarding conversion at smallcase, from funnel and cohort analysis',
   },
   {
     value: 4,
